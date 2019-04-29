@@ -1,0 +1,3 @@
+source env/bin/activate
+Django==2.2
+
