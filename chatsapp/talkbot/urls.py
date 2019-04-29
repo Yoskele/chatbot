@@ -2,7 +2,7 @@ from django.conf.urls import url
 
 from django.urls import include, path
 
-
+from django.contrib.auth.forms import UserCreationForm
 
 
 from .import views
@@ -11,4 +11,7 @@ from .import views
 app_name= 'talkbot'
 urlpatterns = [
     path('', views.homepage, name="homepage"),
+    path('signup/', views.signup_view, name="signup"),
+    path('login/', views.login_view, name="login"),
+    path('chatbot/', views.sendmessage, name="sendmessage"),
 ]
