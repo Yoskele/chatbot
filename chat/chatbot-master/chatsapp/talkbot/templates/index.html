@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %} Index Page {% endblock %}
+{% block content %}
+
+	<title> Chatapp </title>
+
+
+	<form class="logout-link" action="{% url 'talkbot:logout' %}" method="post">
+		{% csrf_token %}
+		
+		<button type="submit"> Logout </button>
+	</form>
+
+		<h1> Chat App </h1>
+
+{% endblock %}
