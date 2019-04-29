@@ -18,10 +18,6 @@ def homepage(request):
 
 
 
-
-
-
-
 def signup_view(request):
 	form = UserCreationForm()
 	if request.method == 'POST':
@@ -41,18 +37,22 @@ def signup_view(request):
 
 
 
-@login_required
+def logout_view(request):
+	if request.method == 'POST':
+		logout(request)
+		return redirect('talkbot:login')
+
+@login_required(login_url="/login/")
 def sendmessage(request):
 	if request.method == 'POST':
 		form = forms.CreateMessage(request.POST)
 		if form.is_valid():
-			print('YooooooooooooooooS')
-			# Save Article to db
 			instance = form.save(commit=False)
-			# Saving the user to the article he uploads.
-			instance.author = request.user
+			instance.user = request.user
+			print('Before the Save')
 			instance.save()
-			return redirect('talkbot:chatbot')
+			print('After save')
+			return redirect('talkbot:sendmessage')
 	else:
 
 		form = forms.CreateMessage()
