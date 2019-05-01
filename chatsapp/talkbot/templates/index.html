@@ -12,5 +12,21 @@
 	</form>
 
 		<h1> Chat App </h1>
+					{% for person in member %}
+					{{person.user.username}}
+					{% endfor %}
 
+		<div class="container">
+			<h4> Friends on the DataBase </h4>
+{% for user in users %}
+
+			<ul class="list-group">
+  				<li class="list-group-item"><a href="{% url 'talkbot:member' slug=user.username%}">{{user.username}}  {{user.id}} </a></li>
+			</ul>
+{% endfor %}
+
+
+
+
+		</div>
 {% endblock %}

@@ -1,10 +1,10 @@
-from django import forms
-from django.forms import TextInput
-from .models import ChattRoom
+# from django import forms
+# from django.forms import TextInput
+# from .models import Chatroom
 
 
-class CreateMessage(forms.ModelForm):
+# class CreateMessage(forms.ModelForm):
 
-	class Meta:
-		model = ChattRoom
-		fields = ['message']
+# 	class Meta:
+# 		model = Chatroom
+# 		fields = ['message']

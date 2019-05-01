@@ -15,4 +15,7 @@ urlpatterns = [
     path('login/', views.login_view, name="login"),
     path('logout/', views.logout_view, name="logout"),
     path('chatbot/', views.sendmessage, name="sendmessage"),
+    path('chatroom/<int:id>/', views.chatroom, name="chatroom"),
+    path('chatroom/<slug>/', views.member, name="member"),
 ]
+

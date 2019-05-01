@@ -20,5 +20,24 @@
 		</form>
 	</div>
 
+{% for message in messages %}
+	<div class="container">
+		<ul class="list-group">
+  			<li class="alert alert-primary"> {{message}} </li>
+  			<li class="alert alert-danger"> {{message}} </li>
+		</ul>
+	</div>
+{% endfor %}
+
+
+
+
+
+
+
+
+
+
 {% endblock %}
 
+ 

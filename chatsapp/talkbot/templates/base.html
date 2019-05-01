@@ -18,10 +18,11 @@
   {% block nav %}
     <nav class="navbar navbar-dark bg-dark">
       <a class="navbar-brand" href="{% url 'talkbot:homepage' %}">
-        Chatt
+       <p style="color:green"> Online: {{user.username}} </p>
       </a>
 
     </nav>
     {% endblock %}
     {% block content %}{% endblock %}
+</body>
 </html>

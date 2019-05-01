@@ -1,0 +1,25 @@
+{% extends 'base.html'%}
+{% block title %} ChatRoom {% endblock%}
+{% block content %}
+
+<div class="container">
+	<h3> Welcome to the ChatRoom </h3>
+	<h4> Start Your private Chat </h4>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for msg in messages %}
+            <li> 
+                <div class="alert alert-success" role="alert">
+                    {{msg.message}}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+</div>
+
+
+
+
+{% endblock %}
