@@ -17,5 +17,9 @@ urlpatterns = [
     path('chatbot/', views.sendmessage, name="sendmessage"),
     path('chatroom/<int:id>/', views.chatroom, name="chatroom"),
     path('chatroom/<slug>/', views.member, name="member"),
+    path('profile/', views.profile, name="profile"),
+    path('contact_us/', views.contact_us, name="contact_us"),
+
+
 ]
 
