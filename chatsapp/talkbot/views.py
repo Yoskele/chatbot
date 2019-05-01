@@ -32,7 +32,11 @@ def signup_view(request):
 	}
 	return render(request, 'signup.html', context)
 
+def profile(request):
+	return render(request, 'user_profile.html')
 
+def contact_us(request):
+	return render(request, 'contact_us.html')
 
 def login_view(request):
 	if request.method == 'POST':
