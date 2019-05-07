@@ -1,10 +1,14 @@
-# from django import forms
-# from django.forms import TextInput
-# from .models import Chatroom
+from django import forms
 
+from .models import Message, Member, Chatroom
 
-# class CreateMessage(forms.ModelForm):
+from django.forms import HiddenInput
 
-# 	class Meta:
-# 		model = Chatroom
-# 		fields = ['message']
+class CreateMessageForm(forms.ModelForm):
+
+	class Meta:
+		model = Message
+		fields = ['text']
+		# widgets = {
+		# 	'room': forms.HiddenInput(),
+		# }

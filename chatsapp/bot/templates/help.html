@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %} Member Page {% endblock %}
+{% block content %}
+	<h3> Help Center Ask Your Questions Here! </h3>
+
+	<div class="container">
+		<h4> Write Here </h4>
+		{{answer.1}}
+		<form method="post">
+			{% csrf_token %}
+
+			{{form}}
+			<input type='submit' value="Ask">
+		</form>
+	</div>
+{% endblock %} 

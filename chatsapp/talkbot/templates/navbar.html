@@ -1,0 +1,26 @@
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-warning">
+  <a style="color:red" href="/"><b> Chat with the World </b></a>
+
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar">
+      <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" href="#">Public Room</a>
+      <a class="nav-item nav-link" href="#">HelpCenter </a>
+      <a class="nav-item nav-link" href="/contact_us/" >ContactUs </a>
+      <a href="#" class="ml-2" style="color:green"> {{user.username}} is Online</a>
+
+{% if user.is_authenticated %}
+
+<a class="nav-item nav-link" href="{% url 'talkbot:logout' %}">Logout </a>
+{% else %}
+        
+<a class="nav-item nav-link" href="{% url 'talkbot:login' %}">Login</a>
+
+{% endif %}
+
+    </div>
+  </div>
+</nav>
