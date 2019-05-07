@@ -1,18 +1,13 @@
-* {
-	background-color: silver;
-}
 
-.row {
-	background-color: blue;
-	padding: 10px;
-}
+
 
 .row div {
 	border: purple 1px solid;
 	background-color: #dff;
 	text-align: center;
+
 }
-ul {
+.profile {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
@@ -30,3 +25,5 @@ ul {
 	color: white;
 	text-align: center;
 }
+
+

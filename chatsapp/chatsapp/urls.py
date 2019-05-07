@@ -15,6 +15,8 @@ from django.conf import settings
 urlpatterns = [
 	path('admin/', admin.site.urls),
     path('', include('talkbot.urls')),
+    path('help/', include('bot.urls')),
+
 ]
 
 

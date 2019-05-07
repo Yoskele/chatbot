@@ -1,3 +1,35 @@
+html{
+	position: relative;
+	min-height: 100%;
+}
+
 body{
 
+
+}
+
+
+footer{
+	position: absolute;
+	bottom:0;
+	left:0;
+	right:0;
+
+}
+
+
+.navbar a{
+	color:gray;
+}
+
+.navbar a:hover{
+	color:red;
+}
+
+
+
+.messagebox{
+	height:400px;
+	border:2px solid black;
+	border-radius: 5px;
 }

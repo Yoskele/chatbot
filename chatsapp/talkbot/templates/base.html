@@ -15,15 +15,16 @@
   <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-	
-  {% block nav %}
-    <nav class="navbar navbar-dark bg-dark">
-      <a class="navbar-brand" href="{% url 'talkbot:homepage' %}">
-       <p style="color:green"> Online: {{user.username}} </p>
-      </a>
+{% include 'navbar.html'  %}
+{% block content %}{% endblock %}
 
-    </nav>
-    {% endblock %}
-    {% block content %}{% endblock %}
+
+{% include 'footer.html' %}
+
 </body>
 </html>
+
+
+
+
+
