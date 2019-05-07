@@ -12,9 +12,9 @@ from .import views
 app_name= 'talkbot'
 urlpatterns = [
     path('signup/', views.signup_view, name="signup"),
-    path('login/', views.login_view, name="login"),
+    path('', views.login_view, name="login"),
     path('logout/', views.logout_view, name="logout"),
-    path('', views.profile, name="profile"),
+    path('profile/', views.profile, name="profile"),
     path('contact_us/', views.contact_us, name="contact_us"),
 
     path('member/<int:friend_id>/', views.member, name='member'),
