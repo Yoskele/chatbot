@@ -1,0 +1,31 @@
+html{
+	position: relative;
+	min-height: 100%;
+}
+
+body{
+
+
+}
+
+
+
+
+.messagebox{
+	height:400px;
+	border:2px solid black;
+	border-radius: 5px;
+}
+
+
+.message-text-input {
+	flex-grow: 10;
+}
+
+#div_id_text > div {
+	width: 100%;
+}
+
+.message-text-input input[type=text] {
+	width: 100%;
+}

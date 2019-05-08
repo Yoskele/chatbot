@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %} Member Page {% endblock %}
+{% block content %}
+	
+
+<div class="jumbotron">
+	<div class="container">
+  		<h3> Help Center Ask Your Questions Here! </h3>
+  		<li class="list-group-item list-group-item-warning mt-2"> {{ answer }} </li>
+  		<hr class="my-4">
+  		<p>KeyWord: Upload, Contact us, Send Message, Delete Message,.</p>
+
+  		<form method="post">
+			{% csrf_token %}
+
+			{{form}}
+			<br>
+			<input type='submit' value="Ask"  class="btn btn-primary btn-lg">
+		</form>
+	</div>
+</div>
+	
+{% endblock %} 

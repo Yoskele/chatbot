@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %} Index Page {% endblock %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="stylish.css">
+
+<div class="row row_b">
+	<div class="col-md-2">
+		<h6>What's happening with your friends?</h6>
+		<ul class="profile">
+			<li>Friends</li>
+			{% for user in users %}
+			<a href="{% url 'talkbot:member' friend_id=user.id %}"> <li><p> {{user.username}} </p></li></a>
+			{% endfor %}
+		</ul>
+	</div>
+	<div class="col-md">
+			{% for pic in upload %}
+
+
+	<img src="{{ pic.picture.url }}" width="200">
+
+	{% endfor %}
+		<h4> Welcome:  {{user.username}} </h4>
+		<h2>Profile Pic</h2>
+		<h3> Add text about me About me</h3>
+		<h3> Help Center Ask Question Here if you need help!</h3>
+
+		<div>
+			<form method="post" action="{% url 'talkbot:profile' %}" enctype="multipart/form-data">
+				{% csrf_token %}
+
+				{{form}}
+				<input type='submit' value="Upload">
+			</form>
+		</div>
+	</div>
+	<div class="col-md-2">
+		<h6>Tell us about you!</h6>
+		<ul class="profile">
+			<li>Change Picture</li>
+			<li>Update Information</li>
+			<li>Add video</li>
+			<li>History</li>
+		</ul>
+	</div>
+
+
+</div>  
+
+
+
+
+{% endblock %} 

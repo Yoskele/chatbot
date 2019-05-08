@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %} Member Page {% endblock %}
+{% block content %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<h2> ChattRooom {{ chatroom.name_of_chatroom }} </h2>
+
+<div class="container">
+    <h3> Creater of the group {{ chatroom.created_by }}</h3>
+
+
+    {% if messages %}
+    <ul class="messages">
+        {% for msg in messages %}
+        <li> 
+            <div class="alert alert-success" role="alert">
+                {{msg.message}}
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+
+
+    <div class="messagebox overflow-auto">
+        <ul class="list-group">
+            {% for text in texts %}
+            <li class="list-group-item list-group-item-secondary">{{text.user}}: {{text.text}} </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+
+    <!-- write message -->
+
+    <form class="form-inline" method="post" action="{% url 'talkbot:create' chatroom_id=chatroom.id %}">
+
+        <div class="form-row w-100">
+            {% csrf_token %}
+            <div class="form-group col-md-12">
+                <div class="message-text-input">
+                    {{ form|crispy }}
+                </div>
+                <button type="submit" class="btn btn-primary">Send</button>
+            </div>
+        </div>              
+    </form>
+</div>
+
+{% endblock %} 

@@ -1,0 +1,34 @@
+
+{% extends 'base.html' %}
+{% block title %} Login  {% endblock %}
+{% block content %}
+
+
+    <div class="row justify-content-center mt-5">
+
+        <div class="col-4">
+
+            <h3>Login</h3>
+
+            <hr>
+
+            <form method="post">
+
+                {%csrf_token%}
+
+                {{form.as_p}}
+
+                <br>
+
+                <button type= 'submit' value="Login" class = "btn btn-danger">Login</button>
+                <p> No Account No Worries Create one Here! </p>
+                <a href="{% url 'talkbot:signup' %}"> Create </a>
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+{% endblock %}
