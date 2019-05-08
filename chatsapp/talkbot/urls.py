@@ -20,5 +20,7 @@ urlpatterns = [
     path('member/<int:friend_id>/', views.member, name='member'),
     path('chatroom/<int:chatroom_id>/', views.chatroom, name='chatroom'),
     path('createmessage/<int:chatroom_id>/', views.create_message, name="create"),
+
+    path('profile/delete/<int:chatroom_id>/', views.delete_message, name='delete_message')
 ]
 

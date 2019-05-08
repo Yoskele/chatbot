@@ -34,6 +34,11 @@ class Chatroom(models.Model):
         return '{}, {}'.format(self.created_by,self.name_of_chatroom)
 
 
+# class Public_chatroom(models.Model):
+#     text = models.CharField(max_length=500)
+#     member = models.
+
+
 class Upload(models.Model):
     picture = models.ImageField(default=None, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)

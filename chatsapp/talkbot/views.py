@@ -147,3 +147,18 @@ def create_message(request, chatroom_id):
     }
     return render(request, 'chatroom.html', context)  
 
+
+
+def delete_message(request, chatroom_id):
+    # Delete his messages in that room he is in...
+    text = Message.objects.filter(user_id=request.user.id).filter(chatroom=chatroom_id).delete()
+    #Flash message that the messages are deleted.
+    messages.add_message(request, messages.INFO, 'Your Messages Are Deleted')
+    return render(request, 'user_profile.html')
+
+
+
+# def public_chatroom(request):
+#     public_chatroom = Public_chatroom.objects.all()
+#     if len(public_chatroom) == 0:
+#         create_room = Public_chatroom()

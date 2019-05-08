@@ -18,24 +18,22 @@
             {% endfor %}
         </ul>
         {% endif %}
+        <div class="messagebox">
+            <ul class="list-group">
+                {% for text in texts %}
+    	        <li class="list-group-item list-group-item-secondary">{{text.user}}: {{text.text}} </li>
+                {% endfor %}
+            </ul>
+          </div>
+    	<!-- write message -->
+        <div>
+    		<form method="post" action="{% url 'talkbot:create' chatroom_id=chatroom.id %}">
+    			{% csrf_token %}
 
-
-
-     <div class="messagebox">
-        <ul class="list-group">
-{% for text in texts %}
-	        <li class="list-group-item list-group-item-secondary">{{text.user}}: {{text.text}} </li>
-{% endfor %}
-        </ul>
-      </div>
-	<!-- write message -->
-    <div>
-		<form method="post" action="{% url 'talkbot:create' chatroom_id=chatroom.id %}">
-			{% csrf_token %}
-
-			{{form}}
-			<input type='submit' value="create">
-		</form>
-	</div>
-
+    			{{form}}
+    			<input type='submit' value="create">
+    		</form>
+    	</div>
+        <a href="{% url 'talkbot:delete_message' chatroom_id=chatroom.id %}" style="color:red"> delete all your messages in the group </a>
+    </div>
 {% endblock %} 

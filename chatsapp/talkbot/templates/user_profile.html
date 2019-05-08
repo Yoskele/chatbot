@@ -3,6 +3,9 @@
 {% block content %}
 <link rel="stylesheet" type="text/css" href="stylish.css">
 
+
+
+
 <div class="row row_b">
 	<div class="col-md-2">
 		<h6>What's happening with your friends?</h6>
@@ -42,12 +45,22 @@
 			<li>Add video</li>
 			<li>History</li>
 		</ul>
+
+
 	</div>
 
 
+
 </div>  
-
-
+<div >
+	    {% if messages %}
+            {% for msg in messages %}
+            <p class="alert alert-danger" role="alert">
+			  {{msg.message}}
+			</p>
+            {% endfor %}
+        {% endif %}
+</div>
 
 
 {% endblock %} 

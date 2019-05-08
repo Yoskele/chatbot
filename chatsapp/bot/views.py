@@ -14,16 +14,16 @@ def help_bot(request):
         if form.is_valid():
             question_text = form.cleaned_data['question_text']
 
-            if question_text == 'upload':
+            if question_text == 'Upload':
                 answer =  'At Your Profile You have an option to upload profile picture or even upload an image with your post'
 
-            elif question_text == 'contact':
+            elif question_text == 'Contact':
                 answer = 'You Can Always Reach Out To Us On This Email Adress Chat@Gmail.Com'
 
-            elif question_text == 'send message':
+            elif question_text == 'Send message':
                 answer = 'Your Friends are one button away to chat with. In Our platform you will be avaible to talk to eachover.'
 
-            elif question_text == 'delete message':
+            elif question_text == 'Delete message':
                 answer = 'If you dont like one of your message you can always hit the delete button at the chatroom.'
 
             else:
