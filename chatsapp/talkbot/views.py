@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .import forms
-from .models import Chatroom, Message, Member
+from .models import Chatroom, Message, Member, Upload
 from django.contrib.auth.models import User
 
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -15,10 +15,22 @@ from django.contrib import messages
 
 def profile(request):
     # Get all User in dataBase Exclude Admin and the User. Display at html template friend list.
+    form = forms.UploadForm()
     users = User.objects.all().exclude(username='admin').exclude(username=request.user)
-
+    upload = Upload.objects.filter(user_id=request.user.id)
+    if request.method == 'POST':
+        form = forms.UploadForm(request.POST,  request.FILES)
+        print('Before Validatiom')
+        if form.is_valid():
+            media = form.save(commit=False)
+            media.user = request.user
+            media.save()
+            print('adfter SAve')
+            return render(request, 'user_profile.html')
     context = {
-        'users':users
+        'upload': upload,
+        'users':users,
+        'form': form
     }
     return render(request, 'user_profile.html', context)
 
@@ -70,7 +82,7 @@ def login_view(request):
     return render(request, 'login.html', {'form':form})
 
 
-
+# Works
 def member(request, friend_id):
     # Check if User and his Friend are Members to a Chatroom.
     memberroom = Chatroom.objects.filter(member__user=request.user).filter(member__user=friend_id)
@@ -107,70 +119,31 @@ def member(request, friend_id):
         return redirect('talkbot:chatroom', chatroom_id=chatroom.id)
 
 
-
 def chatroom(request, chatroom_id):
-    # Gets all Messages from that group that this user wrote.
-    #user_messages = Message.objects.all().filter(chatroom=chatroom).filter(user=request.user)
-    # Get all Members from the Chatroom id. And Exclude means take of userOnline from the list.
-    #other_members = Member.objects.filter(chatroom=chatroom).exclude(user=request.user)
-    # Get the friend First index from Members.
-    #friend = other_members[0].user
-    # Gets all Messages from that group that this Friend wrote. Searching my friend Instance who has a user_id inside.
-    #friend_messages = Message.objects.filter(chatroom=chatroom).filter(user=friend)
     chatroom = Chatroom.objects.get(pk=chatroom_id)
     texts = Message.objects.all().filter(chatroom=chatroom_id)
     form = forms.CreateMessageForm()
     context = {
-        #'user_messages': user_messages,
-        #'friend_messages': friend_messages,
         'chatroom': chatroom,
         'texts': texts,
         'form': form,
     } 
     return render(request, 'chatroom.html', context)
 
-
+# Private Chatroom
 def create_message(request, chatroom_id):
     form = forms.CreateMessageForm()
     chatroom = get_object_or_404(Chatroom, pk=chatroom_id)
-    print('Before Post')
     if request.method == 'POST':
         form = forms.CreateMessageForm(request.POST)
         if form.is_valid():
-            print('Before Validation')
             message = form.save(commit=False)
             message.user = request.user
-            print(message.user)
             message.chatroom = chatroom
-            print(chatroom_id)
             message.save()
-            print('Message Saved')
             return redirect('talkbot:chatroom', chatroom_id=chatroom_id)
     context = {
         'form':form
     }
     return render(request, 'chatroom.html', context)  
 
-
-# def help_center(request):
-#     form = forms.HelpForm()
-
-#     context = {
-#         'form': form
-#     }
-#     return render(request, 'help_center.html', context)
-
-
-
-# def help_question(request):
-#     form = form.HelpForm()
-#     if request.method == 'POST':
-#         form = HelpForm(request.POST)
-#         if form.is_valid():
-#             question_text = form.cleaned_data['question_text']
-#             print(question_text)
-#         return render(request, 'help_center.html', context)
-#     context = {
-#         'form': form
-#     }
-#     return render(request, 'help_center.html', context)

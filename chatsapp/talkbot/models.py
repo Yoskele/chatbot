@@ -34,3 +34,10 @@ class Chatroom(models.Model):
         return '{}, {}'.format(self.created_by,self.name_of_chatroom)
 
 
+class Upload(models.Model):
+    picture = models.ImageField(default=None, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+    def __str__(self):
+        return '{}, {}'.format(self.picture, self.user)

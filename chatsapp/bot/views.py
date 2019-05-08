@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 
 
 from .forms import Question
@@ -8,20 +8,33 @@ from .forms import Question
 
 
 def help_bot(request):
-	form = Question()
-	if request.method == 'POST':
-		form = Question(request.POST)
-		if form.is_valid():
-			print('After Validation')
-			question_text = form.cleaned_data['question_text']
-			print()
-			if question_text == 'Yossi':
-				answer=  ['Yossi is the King', 'hehter' ] 
-				return render(request, 'help.html', {'answer':answer})
+    form = Question()
+    if request.method == 'POST':
+        form = Question(request.POST)
+        if form.is_valid():
+            question_text = form.cleaned_data['question_text']
 
-	context = {
-		'form': form
-	}
-	return render(request, 'help.html', context)
+            if question_text == 'upload':
+                answer =  'At Your Profile You have an option to upload profile picture or even upload an image with your post'
 
+            elif question_text == 'contact':
+                answer = 'You Can Always Reach Out To Us On This Email Adress Chat@Gmail.Com'
 
+            elif question_text == 'send message':
+                answer = 'Your Friends are one button away to chat with. In Our platform you will be avaible to talk to eachover.'
+
+            elif question_text == 'delete message':
+                answer = 'If you dont like one of your message you can always hit the delete button at the chatroom.'
+
+            else:
+                return render(request, 'help.html')
+
+            context = {
+                'form': form,
+                'answer': answer
+                }
+            return render(request, 'help.html', context)
+    context = {
+        'form': form
+    }
+    return render(request, 'help.html', context)
