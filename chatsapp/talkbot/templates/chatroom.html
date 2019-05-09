@@ -27,7 +27,7 @@
           </div>
     	<!-- write message -->
         <div>
-    		<form method="post" action="{% url 'talkbot:create' chatroom_id=chatroom.id %}">
+    		<form class="message_form" method="post" action="{% url 'talkbot:create' chatroom_id=chatroom.id %}">
     			{% csrf_token %}
 
     			{{form}}

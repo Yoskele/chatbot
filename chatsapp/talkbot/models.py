@@ -15,6 +15,7 @@ class Message(models.Model):
     def __str__(self):
         return '{}, {}'.format(self.text,self.chatroom)
 
+
 class Member(models.Model):
     # See Who's Member on the ChatRoom.
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -34,15 +35,34 @@ class Chatroom(models.Model):
         return '{}, {}'.format(self.created_by,self.name_of_chatroom)
 
 
-# class Public_chatroom(models.Model):
-#     text = models.CharField(max_length=500)
-#     member = models.
-
-
 class Upload(models.Model):
     picture = models.ImageField(default=None, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-
     def __str__(self):
         return '{}, {}'.format(self.picture, self.user)
+
+
+class Profile_update(models.Model):
+    name = models.CharField(max_length=100, default='Name')
+    lastname = models.CharField(max_length=100, default='Lastname')
+    age = models.IntegerField(default=0)
+    city = models.CharField(max_length=100, default='City')
+    country = models.CharField(max_length=100, default='Country')
+    profile_image = models.ImageField(default='default.jpg', blank=True)
+    description = models.CharField(max_length=200, default='Description')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return '{}, {}, {}, {}, {}'.format(self.name, self.lastname, self.city, self.country, self.profile_image)
+
+class ArticlePost(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    body = models.CharField(max_length=300)
+    date_created = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(default='default.jpeg')
+    like = models.IntegerField(default=0)
+
+    def __str__(self):
+        return '{}, {}, {}, {}, {}'.format(self.user, self.title, self.body, self.date_created, self.like)

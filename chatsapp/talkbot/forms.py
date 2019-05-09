@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Message, Member, Chatroom, Upload
+from .models import Message, Member, Chatroom, Profile_update, ArticlePost
 
 from django.forms import HiddenInput
 
@@ -13,8 +13,18 @@ class CreateMessageForm(forms.ModelForm):
 		# 	'room': forms.HiddenInput(),
 		# }
 
-class UploadForm(forms.ModelForm):
+
+
+
+class ProfileForm(forms.ModelForm):
 
 	class Meta:
-		model = Upload
-		fields = ['picture']
+		model = Profile_update
+		fields = ['name', 'lastname', 'age', 'city', 'country', 'description', 'profile_image']
+
+
+class ArticlePost(forms.ModelForm):
+
+	class Meta:
+		model = ArticlePost
+		fields = ['title', 'body', 'image']

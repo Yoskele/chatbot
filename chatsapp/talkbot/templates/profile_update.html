@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %} Profile Update Page {% endblock %}
+{% block content %}
+
+
+<div class="container">
+  <form class="site-form" method="post" action="{% url 'talkbot:update_profile_info' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {{form}}
+    <input type='submit' value="Save">
+  </form>
+
+  <a href="{% url 'talkbot:delete_profile_info' %}"> To Delete the Previous infomartion about you Click Here </a>
+</div>
+
+</body>
+</html>
+
+{% endblock %} 

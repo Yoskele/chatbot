@@ -1,35 +1,70 @@
-html{
+
+#left_row{
+	margin:0px;
+	border-right: 1px solid black;
+	padding:10px;
+	max-height: 100%;
+}
+
+#left_row ul{
+	list-style-type: none;
+}
+
+
+
+#middle_part{
+	border-bottom:1px solid black;
+
+}
+
+.profile_img{
+	margin:0px;
+	height:200px;
+	width: 200px;
+}
+#right_row{
+	margin:0px;
+	border-left: 1px solid black;
+	padding:10px;
+	max-height:100%;
+}
+
+.user_post{
+	border-bottom:1px dotted gray;
+}
+
+.postImagePosition, .postimage{
+	margin:0px;
+	height:150px;
+	width: 150px;
 	position: relative;
-	min-height: 100%;
-}
-
-body{
-
+	left:100px;
 
 }
+
+.description_profile p{
+	margin:3px;
+}
+
+.site-form{
+	margin-top:60px;
+	border:1px solid #00dba0;
+	padding:20px;
+}
+
+
+.site-form input, .site-form textarea{
+	display:inline;
+	margin: 20px 0 0 0;
+	padding:10px;
+
+}
+
+
+
 
 
 footer{
-	position: absolute;
-	bottom:0;
-	left:0;
-	right:0;
-
-}
-
-
-.navbar a{
-	color:gray;
-}
-
-.navbar a:hover{
-	color:red;
-}
-
-
-
-.messagebox{
-	height:400px;
-	border:2px solid black;
-	border-radius: 5px;
+	height:100px;
+	background-color:gray;
 }

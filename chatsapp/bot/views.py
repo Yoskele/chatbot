@@ -8,11 +8,11 @@ from .forms import Question
 
 
 def help_bot(request):
-    form = Question()
+    form_help_center = Question()
     if request.method == 'POST':
-        form = Question(request.POST)
-        if form.is_valid():
-            question_text = form.cleaned_data['question_text']
+        form_help_center = Question(request.POST)
+        if form_help_center.is_valid():
+            question_text = form_help_center.cleaned_data['question_text']
 
             if question_text == 'Upload':
                 answer =  'At Your Profile You have an option to upload profile picture or even upload an image with your post'
@@ -30,11 +30,11 @@ def help_bot(request):
                 return render(request, 'help.html')
 
             context = {
-                'form': form,
+                'form': form_help_center,
                 'answer': answer
                 }
             return render(request, 'help.html', context)
     context = {
-        'form': form
+        'form_help_center': form_help_center
     }
     return render(request, 'help.html', context)

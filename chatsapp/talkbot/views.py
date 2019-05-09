@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .import forms
-from .models import Chatroom, Message, Member, Upload
+from .models import Chatroom, Message, Member, Upload, Profile_update, ArticlePost
 from django.contrib.auth.models import User
 
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -13,26 +13,6 @@ from django.contrib import messages
 
 
 
-def profile(request):
-    # Get all User in dataBase Exclude Admin and the User. Display at html template friend list.
-    form = forms.UploadForm()
-    users = User.objects.all().exclude(username='admin').exclude(username=request.user)
-    upload = Upload.objects.filter(user_id=request.user.id)
-    if request.method == 'POST':
-        form = forms.UploadForm(request.POST,  request.FILES)
-        print('Before Validatiom')
-        if form.is_valid():
-            media = form.save(commit=False)
-            media.user = request.user
-            media.save()
-            print('adfter SAve')
-            return render(request, 'user_profile.html')
-    context = {
-        'upload': upload,
-        'users':users,
-        'form': form
-    }
-    return render(request, 'user_profile.html', context)
 
 
 # Works
@@ -82,6 +62,64 @@ def login_view(request):
     return render(request, 'login.html', {'form':form})
 
 
+def profile(request):
+    # Get all User in dataBase Exclude Admin and the User. Display at html template friend list.
+    users = User.objects.all().exclude(username='admin').exclude(username=request.user)
+    # Get the user profile 
+    profile = Profile_update.objects.filter(user=request.user)
+    # Get user post
+    posts = ArticlePost.objects.filter(user=request.user).order_by('-date_created')
+
+    context = {
+        'users': users,
+        'profile': profile,
+        'posts': posts
+
+    }
+    return render(request, 'user_profile.html', context)
+
+
+
+def update_profile_info(request):
+    form = forms.ProfileForm()
+    if request.method == 'POST':
+        form = forms.ProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            profile_user = form.save(commit=False)
+            profile_user.user = request.user
+            profile_user.save()
+            print('after Save')
+            return redirect('talkbot:profile')
+    context = {
+        'form': form
+    }
+    return render(request, 'profile_update.html', context)
+
+
+def delete_profile_info(request):
+    Profile_update.objects.filter(user=request.user).delete()
+    return redirect('talkbot:update_profile_info')
+
+
+def createpost(request):
+    form = forms.ArticlePost()
+    if request.method == 'POST':
+        form = forms.ArticlePost(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = request.user
+            post.save()
+            print('Post Saved')
+            return redirect('talkbot:profile')
+    context = {
+        'form': form
+    }
+    return render(request, 'createpost.html', context)
+
+
+
+
+
 # Works
 def member(request, friend_id):
     # Check if User and his Friend are Members to a Chatroom.
@@ -89,7 +127,6 @@ def member(request, friend_id):
     print('Before If Statment')
     print(friend_id)
     if len(memberroom) == 0:
-        print('Empty list.')
         create_room = Chatroom(created_by=request.user, name_of_chatroom='MushroomHunt')
         create_room.save()
         # Get the last room in the list that we just created.
@@ -98,11 +135,8 @@ def member(request, friend_id):
         # Pushed my ID First
         member = Member(chatroom=new_room, user=request.user)
         # Storing Friends ID in Member.
-
         member_friend = Member(chatroom=new_room, user_id=friend_id)
         member.save()
-
-        print('roomSaved and past the if statment.')
         member_friend.save()
         #Flas Message That says it creatade a room.
         messages.add_message(request, messages.SUCCESS, 'Enjoy your First Conversation')
@@ -162,3 +196,6 @@ def delete_message(request, chatroom_id):
 #     public_chatroom = Public_chatroom.objects.all()
 #     if len(public_chatroom) == 0:
 #         create_room = Public_chatroom()
+
+
+

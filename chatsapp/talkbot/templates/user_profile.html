@@ -1,66 +1,86 @@
 {% extends 'base.html' %}
-{% block title %} Index Page {% endblock %}
+{% block title %} Profile Page {% endblock %}
 {% block content %}
-<link rel="stylesheet" type="text/css" href="stylish.css">
 
 
+<div>
+	<div class="row">
+	   	<div id="left_row" class="col-sm-2">
+			<ul class="profile">
+				<li>Users</li>
+				{% for user in users %}
+				<div class=2>
+				<a href="{% url 'talkbot:member' friend_id=user.id %}"> <li class="list-group-item list-group-item-info mt-1" style="text-align:center;">{{user.username}}</li></a>
+			</div>
+				{% endfor %}
+			</ul>
+	    </div>
 
+	    <div class="col-sm">
+	    	<div  id="middle_part">
+		    	<div class="row">
 
-<div class="row row_b">
-	<div class="col-md-2">
-		<h6>What's happening with your friends?</h6>
-		<ul class="profile">
-			<li>Friends</li>
-			{% for user in users %}
-			<a href="{% url 'talkbot:member' friend_id=user.id %}"> <li><p> {{user.username}} </p></li></a>
-			{% endfor %}
-		</ul>
+			    	<div class="col-sm-3">
+
+				      	{% for person in profile %}
+						<img class="profile_img" src="{{ person.profile_image.url }}">
+					</div>
+
+					<div class="col-sm-8">
+						<h4> Welcome To {{person.name}} {{person.lastname}}s profile </h4>
+						<div class="description_profile">
+							<p> Age: {{person.age}}</p>
+							<p> Country: {{person.country}} City: {{person.city}}</p>
+							<p> About me: {{person.description}}
+						</div>
+						{% endfor %}
+						<h3> Add text about me About me </h3>
+						<label style="color:red"> Last Login: {{user.last_login}} </label>
+					</div>
+				</div>
+			</div>
+
+			<button><a href="{% url 'talkbot:createpost' %}"> Create a Post</a> </button>
+
+			<hr>
+
+			<div class="all_post">
+				{% for post in posts %}
+				<div class="user_post">
+						<div class="card-header">
+						   Created at: {{ post.date_created }} by {{ post.user.username}}
+						</div>
+
+						<div class="row">
+
+							<div class="col-sm-6">
+								<h5 class="card-title"> {{ post.title }} </h5>
+								<p class="card-text"> {{ post.body }} </p>
+								<a href="#" class="btn btn-primary mt-3">Like </a>
+							</div>
+
+							<div class="col-sm-6">
+								<div class="postImagePosition">
+									<img class="postimage" src="{{ post.image.url }}">
+								</div>
+							</div>
+							<hr>
+						</div>
+				</div>
+				{% endfor %}
+
+			</div>
+	    </div>
+
+	    <div id="right_row" class="col-sm-2">
+	      		<ul class="profile">
+					<li>Change Picture</li>
+					<a href="{% url 'talkbot:update_profile_info' %}"> <li>Update Information</li> </a>
+					<li>Play Games With Friends</li>
+					<li>History</li>
+				</ul>
+	    </div>
 	</div>
-	<div class="col-md">
-			{% for pic in upload %}
-
-
-	<img src="{{ pic.picture.url }}" width="200">
-
-	{% endfor %}
-		<h4> Welcome:  {{user.username}} </h4>
-		<h2>Profile Pic</h2>
-		<h3> Add text about me About me</h3>
-		<h3> Help Center Ask Question Here if you need help!</h3>
-
-		<div>
-			<form method="post" action="{% url 'talkbot:profile' %}" enctype="multipart/form-data">
-				{% csrf_token %}
-
-				{{form}}
-				<input type='submit' value="Upload">
-			</form>
-		</div>
-	</div>
-	<div class="col-md-2">
-		<h6>Tell us about you!</h6>
-		<ul class="profile">
-			<li>Change Picture</li>
-			<li>Update Information</li>
-			<li>Add video</li>
-			<li>History</li>
-		</ul>
-
-
-	</div>
-
-
-
-</div>  
-<div >
-	    {% if messages %}
-            {% for msg in messages %}
-            <p class="alert alert-danger" role="alert">
-			  {{msg.message}}
-			</p>
-            {% endfor %}
-        {% endif %}
 </div>
-
 
 {% endblock %} 
