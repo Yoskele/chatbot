@@ -19,14 +19,21 @@ urlpatterns = [
 
     path('member/<int:friend_id>/', views.member, name='member'),
     path('chatroom/<int:chatroom_id>/', views.chatroom, name='chatroom'),
-    path('createmessage/<int:chatroom_id>/', views.create_message, name="create"),
+
 
     path('profile/delete/<int:chatroom_id>/', views.delete_message, name='delete_message'),
 
     path('update_profile_info/', views.update_profile_info, name='update_profile_info'),
     path('delete_profile_info/', views.delete_profile_info, name='delete_profile_info'),
 
-    path('createpost/', views.createpost, name="createpost"),
+    path('create_message/<int:chatroom_id>/', views.create_message, name="create"),
+    path('create_post/', views.createpost, name="createpost"),
+    path('create_like/<int:post_id>/', views.create_like, name="create_like"),
+
+    path('allpostroom/', views.allpostroom, name="allpostroom"),
+
+    # View your friend
+    path('yourfriendwall/<int:friend_id>/', views.friend_view, name="friend_view"),
     
 ]
 

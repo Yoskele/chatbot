@@ -64,6 +64,10 @@
 
 
 
+.navbarchat{
+	display: inline;
+
+}
 footer{
 	height:100px;
 	background-color:gray;

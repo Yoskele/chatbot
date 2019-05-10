@@ -68,6 +68,7 @@ def profile(request):
     # Get the user profile 
     profile = Profile_update.objects.filter(user=request.user)
     # Get user post
+    print(profile)
     posts = ArticlePost.objects.filter(user=request.user).order_by('-date_created')
 
     context = {
@@ -78,6 +79,16 @@ def profile(request):
     }
     return render(request, 'user_profile.html', context)
 
+def friend_view(request, friend_id):
+    profile_friend = Profile_update.objects.filter(user=friend_id)
+
+    posts = ArticlePost.objects.all().filter(user=friend_id).order_by('-date_created')
+    print(posts)
+    context = {
+        'profile_friend': profile_friend,
+        'posts': posts
+    }
+    return render(request, 'friend_view.html', context)
 
 
 def update_profile_info(request):
@@ -100,27 +111,26 @@ def delete_profile_info(request):
     Profile_update.objects.filter(user=request.user).delete()
     return redirect('talkbot:update_profile_info')
 
+def delete_message(request, chatroom_id):
+    # Delete his messages in that room he is in...
+    text = Message.objects.filter(user_id=request.user.id).filter(chatroom=chatroom_id).delete()
+    #Flash message that the messages are deleted.
+    messages.add_message(request, messages.INFO, 'Your Messages Are Deleted')
+    return redirect('talkbot:profile')
 
-def createpost(request):
-    form = forms.ArticlePost()
-    if request.method == 'POST':
-        form = forms.ArticlePost(request.POST, request.FILES)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.user = request.user
-            post.save()
-            print('Post Saved')
-            return redirect('talkbot:profile')
+
+# Not Done ! ! !
+def allpostroom(request):
+    allposts = ArticlePost.objects.all().order_by('-date_created')
+    print(allposts)
     context = {
-        'form': form
+        'allposts': allposts
     }
-    return render(request, 'createpost.html', context)
+    return render(request, 'all_post_room.html', context)
 
 
 
 
-
-# Works
 def member(request, friend_id):
     # Check if User and his Friend are Members to a Chatroom.
     memberroom = Chatroom.objects.filter(member__user=request.user).filter(member__user=friend_id)
@@ -164,7 +174,7 @@ def chatroom(request, chatroom_id):
     } 
     return render(request, 'chatroom.html', context)
 
-# Private Chatroom
+
 def create_message(request, chatroom_id):
     form = forms.CreateMessageForm()
     chatroom = get_object_or_404(Chatroom, pk=chatroom_id)
@@ -182,20 +192,29 @@ def create_message(request, chatroom_id):
     return render(request, 'chatroom.html', context)  
 
 
-
-def delete_message(request, chatroom_id):
-    # Delete his messages in that room he is in...
-    text = Message.objects.filter(user_id=request.user.id).filter(chatroom=chatroom_id).delete()
-    #Flash message that the messages are deleted.
-    messages.add_message(request, messages.INFO, 'Your Messages Are Deleted')
-    return render(request, 'user_profile.html')
-
+def create_like(request, post_id):
+    like = ArticlePost.objects.get(pk=post_id)
+    like.like += 1
+    like.save()
+    print(like)
+    return redirect('talkbot:profile')
 
 
-# def public_chatroom(request):
-#     public_chatroom = Public_chatroom.objects.all()
-#     if len(public_chatroom) == 0:
-#         create_room = Public_chatroom()
+def createpost(request):
+    form = forms.ArticlePost()
+    if request.method == 'POST':
+        form = forms.ArticlePost(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = request.user
+            post.save()
+            print('Post Saved')
+            return redirect('talkbot:profile')
+    context = {
+        'form': form
+    }
+    return render(request, 'createpost.html', context)
+
 
 
 

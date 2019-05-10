@@ -66,3 +66,4 @@ class ArticlePost(models.Model):
 
     def __str__(self):
         return '{}, {}, {}, {}, {}'.format(self.user, self.title, self.body, self.date_created, self.like)
+
