@@ -25,8 +25,8 @@ SECRET_KEY = 'b)$2pr-58#=1xu)aj+m8dr8+4lk=(^sv82%r4khztg$cp7-f^%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['yoskele.pythonanywhere.com']
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['yosk.pythonanywhere.com']
+
 
 # Application definition
 
@@ -123,6 +123,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 STATIC_URL = '/static/'
+# New Static root for pyhtonanywhere.
+STATIC_ROOT = '/home/yosk/chatbot/chatsapp/static'
+
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR,'assets'),
