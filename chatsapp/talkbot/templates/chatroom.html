@@ -1,14 +1,10 @@
 {% extends 'base.html' %}
 {% block title %} Member Page {% endblock %}
 {% block content %}
-<h2> ChattRooom {{ chatroom.name_of_chatroom }} </h2>
+<h3> {{ chatroom.name_of_chatroom }} </h3>
 
 	<div class="container">
 
-        <div class="row">
-		  <h3 class="mr-5"> Creater of the group {{ chatroom.created_by }}</h3>
-          <a href="#"> Friend Profile </a>
-        </div>
 
 	    {% if messages %}
         <ul class="messages">
@@ -22,22 +18,27 @@
         </ul>
         {% endif %}
 
-        <div class="messagebox">
+        <nav class="navbar bg-primary">
+		  <h4 class="mr-5" style="color:white"> {{ chatroom.created_by }}</h4> 
+          <a href="{% url 'talkbot:delete_message' chatroom_id=chatroom.id %}" class="btn btn-danger"> Delete all your messages in the group </a>
+        </nav>
+
+        <div class="messagebox overflow-auto mt-1">
             <ul class="list-group">
                 {% for text in texts %}
     	        <li class="list-group-item list-group-item-secondary">{{text.user}}: {{text.text}} </li>
                 {% endfor %}
             </ul>
-          </div>
+        </div>
     	<!-- write message -->
-        <div>
-    		<form class="message_form" method="post" action="{% url 'talkbot:create' chatroom_id=chatroom.id %}">
+        <div class="">
+    		<form class="message-text-input" method="post" action="{% url 'talkbot:create' chatroom_id=chatroom.id %}">
     			{% csrf_token %}
 
     			{{form}}
     			<input type='submit' value="create">
     		</form>
     	</div>
-        <a href="{% url 'talkbot:delete_message' chatroom_id=chatroom.id %}" style="color:red"> delete all your messages in the group </a>
+
     </div>
 {% endblock %} 

@@ -32,8 +32,10 @@ urlpatterns = [
 
     path('allpostroom/', views.allpostroom, name="allpostroom"),
 
-    # View your friend
+    # Find Friend
+    path('find_friend/', views.find_friend, name="find_friend"),
+    # View your friends wall
     path('yourfriendwall/<int:friend_id>/', views.friend_view, name="friend_view"),
-    
+
 ]
 

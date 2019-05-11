@@ -15,6 +15,15 @@
 				{% endfor %}
 
 				<p> Like </p>
+				<div class="UserSearch">
+					<h4> Search for a Frind </h4>
+					    <form class="search_friend" method="post" action="{% url 'talkbot:find_friend' %}">
+	    					{% csrf_token %}
+
+	    					{{ form_search_friend }}
+	    					<input type='submit' value="Search">
+						</form>
+				</div>
 				
 			</ul>
 	    </div>
@@ -33,17 +42,16 @@
 						<h4> Welcome To {{person.name}} {{person.lastname}}s profile </h4>
 						<div class="description_profile">
 							<p> Age: {{person.age}}</p>
-							<p> Country: {{person.country}} City: {{person.city}}</p>
-							<p> About me: {{person.description}}
+							<p> Country: {{person.country}}, City: {{person.city}}</p>
+							<p class="navbar bg-primary" style="color:white"> About me: {{person.description}} </p>
 						</div>
 						{% endfor %}
-						<h3> Add text about me About me </h3>
-						<label style="color:red"> Last Login: {{user.last_login}} </label>
+						<label style="color:red" class="mt-4"> Last Login: {{user.last_login}} </label>
 					</div>
 				</div>
 			</div>
 
-			<button><a href="{% url 'talkbot:createpost' %}"> Create a Post</a> </button>
+			<a href="{% url 'talkbot:createpost' %}" class="btn btn-primary mt-1"> Create a Post</a> 
 
 			<hr>
 
@@ -51,7 +59,7 @@
 				{% for post in posts %}
 				<div class="user_post">
 						<div class="card-header">
-						   Created at: {{ post.date_created }} by {{ post.user.username}} <span class="badge badge-primary">Total Likes {{ post.like }}</span> 
+						   Created at: {{ post.date_created }} by {{ post.user.username}} <span class="badge badge-success">Total Likes {{ post.like }}</span> 
 						</div>
 
 						<div class="row">
@@ -76,24 +84,23 @@
 	    </div>
 
 	    <div id="right_row" class="col-sm-2">
-	      		<ul class="profile">
-					<li>Change Picture</li>
-					<a href="{% url 'talkbot:update_profile_info' %}"> <li>Update Information</li> </a>
-					<li>Play Games With Friends</li>
-					<li>History</li>
-				</ul>
+      		<ul class="profile">
+				<li>Change Picture</li>
+				<a href="{% url 'talkbot:update_profile_info' %}"> <li>Update Information</li> </a>
+				<li>Play Games With Friends</li>
+				<li>History</li>
+			</ul>
 
-				<h5> See Your Friends Profile </h5>
-				{% for user in users %}
-					<ul class="profile">
-						<a href="{% url 'talkbot:friend_view' friend_id=user.id %}"><li> {{ user.username }}</li> </a>
-					</ul>
-				{% endfor %}
-
-	    </div>
+			<h5> See Your Friends Profile </h5>
+			{% for user in users %}
+				<div class="list-group">
+						<a href="{% url 'talkbot:friend_view' friend_id=user.id %}" class="list-group-item list-group-item-action list-group-item-primary mt-1">{{ user.username }}</a>
+				</div>
+			{% endfor %}
+		</div>
 	</div>
 
-	<a href="{% url 'talkbot:allpostroom' %}"> All Post Room </a>
+
 </div>
 
 {% endblock %} 

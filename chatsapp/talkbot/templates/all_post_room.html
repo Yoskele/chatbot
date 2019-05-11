@@ -2,14 +2,30 @@
 {% block title %} Profile Page {% endblock %}
 {% block content %}
 
-
+<h3 class="navbar bg-success" style="width:450px; color:white;">  Give the best Post you have!</h3>
 	<div class="container">
-		<h1> Public Post Room Feel Free To Post about everything and include a picture. </h1>
-		{{allposts.1}}
-		{% for post in allpost %}
-			{{ post.title }}
-		{% endfor %}
-	</div>
+		
+				{% for post in allposts %}
+				<div class="user_post ">
+						<div class="card-header mt-4">
+						   Created at: {{ post.date_created }} by {{ post.user.username}} <span class="badge badge-success">Total Likes {{ post.like }}</span> 
+						</div>
 
+						<div class="row" id="all_post">
 
+							<div class="col-sm-6">
+								<h5 class="card-title"> {{ post.title }} </h5>
+								<p class="card-text"> {{ post.body }} </p>
+								<a href="{% url 'talkbot:create_like' post_id=post.id %}" class="btn btn-primary mr-5 mt-3">Like </a>
+							</div>
+
+							<div class="col-sm-6 mt-4">
+								<div class="postImagePosition">
+									<img class="postimage" src="{{ post.image.url }}">
+								</div>
+							</div>
+							<hr>
+						</div>
+					{% endfor %}
+				</div>
 {% endblock %} 

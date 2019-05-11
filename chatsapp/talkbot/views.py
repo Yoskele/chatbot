@@ -12,9 +12,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 
-
-
-
 # Works
 def signup_view(request):
     form = UserCreationForm()
@@ -71,13 +68,17 @@ def profile(request):
     print(profile)
     posts = ArticlePost.objects.filter(user=request.user).order_by('-date_created')
 
+    form_search_friend = forms.SearchFriendForm()
+
     context = {
+        'form_search_friend': form_search_friend,
         'users': users,
         'profile': profile,
         'posts': posts
 
     }
     return render(request, 'user_profile.html', context)
+
 
 def friend_view(request, friend_id):
     profile_friend = Profile_update.objects.filter(user=friend_id)
@@ -110,6 +111,7 @@ def update_profile_info(request):
 def delete_profile_info(request):
     Profile_update.objects.filter(user=request.user).delete()
     return redirect('talkbot:update_profile_info')
+
 
 def delete_message(request, chatroom_id):
     # Delete his messages in that room he is in...
@@ -216,5 +218,20 @@ def createpost(request):
     return render(request, 'createpost.html', context)
 
 
+def find_friend(request):
+    user_profiles = Profile_update.objects.all()
+    form = forms.SearchFriendForm()
+    if request.method == 'POST':
+        form = forms.SearchFriendForm(request.POST)
+        if form.is_valid():
+            friend = form.cleaned_data['friend']
+            friend_id = User.objects.get(username=friend).pk
+            friend_profile = Profile_update.objects.get(user_id=friend_id)
+            context = {
+                'friend': friend,
+                'user_profiles': user_profiles,
+                'friend_profile': friend_profile,
+            }
 
+            return render(request, 'find_friend.html', context)
 
