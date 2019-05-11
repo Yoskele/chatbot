@@ -5,26 +5,24 @@
 
 <div>
 	<div class="row">
-	   	<div id="left_row" class="col-sm-2">
+	   	<div id="left_row" class="col-sm-2 mt-2">
 			<ul class="profile">
-				<li>Users</li>
+				<li>Talk to other Users</li>
 				{% for user in users %}
 				<div class=2>
-				<a href="{% url 'talkbot:member' friend_id=user.id %}"> <li class="list-group-item list-group-item-info mt-1" style="text-align:center;">{{user.username}}</li></a>
-			</div>
+					<a href="{% url 'talkbot:member' friend_id=user.id %}"> <li class="list-group-item list-group-item-info mt-1" style="text-align:center;">{{user.username}}</li></a>
+				</div>
 				{% endfor %}
 
-				<p> Like </p>
-				<div class="UserSearch">
+				<div class="UserSearch mt-5">
 					<h4> Search for a Frind </h4>
-					    <form class="search_friend" method="post" action="{% url 'talkbot:find_friend' %}">
-	    					{% csrf_token %}
+				    <form class="search_friend" method="post" action="{% url 'talkbot:find_friend' %}">
+    					{% csrf_token %}
 
-	    					{{ form_search_friend }}
-	    					<input type='submit' value="Search">
-						</form>
+    					{{ form_search_friend }}
+    					<input type='submit' value="Search">
+					</form>
 				</div>
-				
 			</ul>
 	    </div>
 
@@ -42,11 +40,12 @@
 						<h4> Welcome To {{person.name}} {{person.lastname}}s profile </h4>
 						<div class="description_profile">
 							<p> Age: {{person.age}}</p>
-							<p> Country: {{person.country}}, City: {{person.city}}</p>
+							<p> Country: {{person.country}}</p>
+							<p> City: {{person.city}} </p>
 							<p class="navbar bg-primary" style="color:white"> About me: {{person.description}} </p>
 						</div>
 						{% endfor %}
-						<label style="color:red" class="mt-4"> Last Login: {{user.last_login}} </label>
+						<label style="color:red" class="mt-2"> Last Login: {{user.last_login}} </label>
 					</div>
 				</div>
 			</div>
@@ -83,7 +82,7 @@
 			</div>
 	    </div>
 
-	    <div id="right_row" class="col-sm-2">
+	    <div id="right_row" class="col-sm-2 mt-2">
       		<ul class="profile">
 				<li>Change Picture</li>
 				<a href="{% url 'talkbot:update_profile_info' %}"> <li>Update Information</li> </a>
@@ -91,7 +90,7 @@
 				<li>History</li>
 			</ul>
 
-			<h5> See Your Friends Profile </h5>
+			<h5 class="mt-5"> See Your Friends Profile </h5>
 			{% for user in users %}
 				<div class="list-group">
 						<a href="{% url 'talkbot:friend_view' friend_id=user.id %}" class="list-group-item list-group-item-action list-group-item-primary mt-1">{{ user.username }}</a>

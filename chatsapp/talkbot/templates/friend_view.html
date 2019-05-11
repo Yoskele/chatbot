@@ -24,11 +24,12 @@
 						<h4> Welcome To {{person.name}} {{person.lastname}}s profile </h4>
 						<div class="description_profile">
 							<p> Age: {{person.age}}</p>
-							<p> Country: {{person.country}} City: {{person.city}}</p>
+							<p> Country: {{person.country}}</p>
+							<p>  City: {{person.city}}</p>
 							<p class="navbar bg-primary" style="color:white"> About me: {{person.description}}</p>
 						</div>
 						{% endfor %}
-						<label style="color:red" class="mt-4"> Last Login: {{user.last_login}} </label>
+						<label style="color:red" class="mt-2"> Last Login: {{user.last_login}} </label>
 					</div>
 				</div>
 			</div>
