@@ -64,7 +64,6 @@ def profile(request):
     # Get the user profile 
     profile = Profile_update.objects.filter(user=request.user)
     # Get user post
-    print(profile)
     posts = ArticlePost.objects.filter(user=request.user).order_by('-date_created')
 
     form_search_friend = forms.SearchFriendForm()
