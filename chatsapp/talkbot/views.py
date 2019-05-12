@@ -2,14 +2,13 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .import forms
 from .models import Chatroom, Message, Member, Upload, Profile_update, ArticlePost
 from django.contrib.auth.models import User
-
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
-
 from django.contrib.auth.decorators import login_required
-
 #Flash message
 from django.contrib import messages
+# For Game Room.
+import random
 
 
 # Works
@@ -58,7 +57,7 @@ def login_view(request):
         form = AuthenticationForm()
     return render(request, 'login.html', {'form':form})
 
-
+@login_required(login_url="/")
 def profile(request):
     # Get all User in dataBase Exclude Admin and the User. Display at html template friend list.
     users = User.objects.all().exclude(username='admin').exclude(username=request.user)
@@ -91,7 +90,7 @@ def friend_view(request, friend_id):
     }
     return render(request, 'friend_view.html', context)
 
-
+@login_required(login_url="/")
 def update_profile_info(request):
     form = forms.ProfileForm()
     if request.method == 'POST':
@@ -107,12 +106,12 @@ def update_profile_info(request):
     }
     return render(request, 'profile_update.html', context)
 
-
+@login_required(login_url="/")
 def delete_profile_info(request):
     Profile_update.objects.filter(user=request.user).delete()
     return redirect('talkbot:update_profile_info')
 
-
+@login_required(login_url="/")
 def delete_message(request, chatroom_id):
     # Delete his messages in that room he is in...
     text = Message.objects.filter(user_id=request.user.id).filter(chatroom=chatroom_id).delete()
@@ -121,7 +120,7 @@ def delete_message(request, chatroom_id):
     return redirect('talkbot:profile')
 
 
-# Not Done ! ! !
+
 def allpostroom(request):
     allposts = ArticlePost.objects.all().order_by('-date_created')
     print(allposts)
@@ -164,7 +163,7 @@ def member(request, friend_id):
                 break
         return redirect('talkbot:chatroom', chatroom_id=chatroom.id)
 
-
+@login_required(login_url="/")
 def chatroom(request, chatroom_id):
     chatroom = Chatroom.objects.get(pk=chatroom_id)
     texts = Message.objects.all().filter(chatroom=chatroom_id)
@@ -176,7 +175,7 @@ def chatroom(request, chatroom_id):
     } 
     return render(request, 'chatroom.html', context)
 
-
+@login_required(login_url="/")
 def create_message(request, chatroom_id):
     form = forms.CreateMessageForm()
     chatroom = get_object_or_404(Chatroom, pk=chatroom_id)
@@ -193,7 +192,7 @@ def create_message(request, chatroom_id):
     }
     return render(request, 'chatroom.html', context)  
 
-
+@login_required(login_url="/")
 def create_like(request, post_id):
     like = ArticlePost.objects.get(pk=post_id)
     like.like += 1
@@ -201,7 +200,7 @@ def create_like(request, post_id):
     print(like)
     return redirect('talkbot:profile')
 
-
+@login_required(login_url="/")
 def createpost(request):
     form = forms.ArticlePost()
     if request.method == 'POST':
@@ -232,6 +231,26 @@ def find_friend(request):
                 'user_profiles': user_profiles,
                 'friend_profile': friend_profile,
             }
-
             return render(request, 'find_friend.html', context)
+
+
+
+def game_room(request):
+    # Pick a player.
+    return render(request, 'game_room.html')
+
+
+def game_room_outcome(request, number):
+    print(number)
+    context = {
+        'number': number
+    }
+    return render(request, 'game_room.html', context)
+
+
+
+def roll_dice(request):
+    roll_dice_value = random.randint(1,10)
+    return redirect('talkbot:game_room_outcome', number=roll_dice_value)
+
 

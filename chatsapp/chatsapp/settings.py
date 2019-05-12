@@ -26,6 +26,7 @@ SECRET_KEY = 'b)$2pr-58#=1xu)aj+m8dr8+4lk=(^sv82%r4khztg$cp7-f^%'
 DEBUG = True
 
 ALLOWED_HOSTS = ['yosk.pythonanywhere.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition

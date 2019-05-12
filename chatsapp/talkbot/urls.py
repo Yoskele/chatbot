@@ -37,5 +37,9 @@ urlpatterns = [
     # View your friends wall
     path('yourfriendwall/<int:friend_id>/', views.friend_view, name="friend_view"),
 
+    # Takes him to the game room.
+    path('game_room/', views.game_room, name="game_room"),
+    path('roll_dice/', views.roll_dice, name="roll_dice"),
+    path('game_room_outcome/<int:number>/', views.game_room_outcome, name="game_room_outcome"),
 ]
 

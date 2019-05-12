@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %} Game Room {% endblock %}
+{% block content %}
+	<h3 class="navbar bg-success" style="width:500px; color:white;"> Play a little game with your friend. </h3>
+ 
+
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-6">
+				<p> User </p>
+				<p> Outcome of dice: <b> {{ number }} </b> </p>
+				<p> Scores </p>
+				<a class="btn btn-success" href="{% url 'talkbot:roll_dice' %}" role="button">Play</a>
+			</div>
+
+			<div class="col-sm-6">
+				<p> Friend </p>
+				<p> Outcome of dice </p>
+				<p> Scores </p>
+				<a class="btn btn-success" href="#" role="button">Play</a>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
