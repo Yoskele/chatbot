@@ -19,7 +19,7 @@
                     </form>
                 </div>
                 <hr>
-                <h4> No Account ? </h4>
+                <h3> No Account ? </h3>
                 <p> Feel free to create one </p>
                 <div class="createAccForm_container">
                     <form class="createAccForm" method="post">
@@ -33,25 +33,28 @@
         <div class="right_side">
             <h4 style="text-align:center;" class="mt-3"> Users on the platform </h4>
             <div class="user_container mt-5">
-                {% for user in users %}
-                    <a href="{% url 'talkbot:friend_view' friend_id=user.id %}">
+                {% for profile in profiles %}
+                    <a href="{% url 'talkbot:friend_view' friend_id=profile.id %}">
                         <div class="user_wrapper">
 
                             <div class="image_container">
-
+                                <img src={{profile.profile_image.url}}>
                             </div>
 
                             <div class="user_content">
-                               <h5>{{ user.username }}</h5>
+                               <p>{{ profile.name }}</p>
+                               <p>{{ profile.age }}</p>
+                               <p>{{ profile.city }}</p>
                             </div>
-
                         </div>
                     </a>
                 {% endfor %}
             </div>
             <div class="github_container">
-                <img src="{% static 'github.png' %}">
-                <a href="https://github.com/Yoskele/" target="_blank"> Go to Yoskele's portfolio</a>
+                <a href="https://github.com/Yoskele/" target="_blank">
+                    <img src="{% static 'github.png' %}">
+                    <b> Yoskele's portfolio</b>
+                </a>
             </div>
         </div>
     </div>

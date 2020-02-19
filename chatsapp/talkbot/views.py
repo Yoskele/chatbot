@@ -40,7 +40,7 @@ def contact_us(request):
 
 # Works 
 def login_view(request):
-    users = User.objects.all()
+    profiles = Profile_update.objects.all()
     if request.method == 'POST' and 'loginForm' in request.POST:
         print('loginForm')
         loginForm = AuthenticationForm(data=request.POST)
@@ -61,13 +61,13 @@ def login_view(request):
             user = createAccForm.save()
             login(request, user)
             print('done')
-            return redirect('talkbot:profile')
+            return redirect('talkbot:update_profile_info')
         else:
             messages.warning(request, 'Failed to create account please try again!')
     loginForm = AuthenticationForm()
     createAccForm = UserCreationForm()
     context = {
-        'users':users,
+        'profiles':profiles,
         'loginForm':loginForm,
         'createAccForm':createAccForm,
     } 
@@ -82,11 +82,21 @@ def profile(request):
     # Get user post
     posts = ArticlePost.objects.filter(user=request.user).order_by('-date_created')
     form_search_friend = forms.SearchFriendForm()
+    createPost = forms.ArticlePost()
+    if request.method == 'POST':
+        form = forms.ArticlePost(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = request.user
+            post.save()
+            print('Post Saved')
+            return redirect('talkbot:profile')
     context = {
         'form_search_friend': form_search_friend,
         'users': users,
         'profile': profile,
-        'posts': posts
+        'posts': posts,
+        'createPost':createPost,
 
     }
     return render(request, 'user_profile.html', context)

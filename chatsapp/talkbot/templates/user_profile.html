@@ -1,7 +1,140 @@
 {% extends 'base.html' %}
 {% block title %} Profile Page {% endblock %}
+{% block extra_head %}
+{% load static %}
+<meta name="description" content="See your own profile easly at django chat" >
+<link rel="stylesheet" href="{% static 'stylefolder/user_profile.css' %}">
+{% endblock %}
 {% block content %}
 
+
+
+<div class="body_container_flex">
+	<div class="block_push">
+		push
+	</div>
+{% for person in profile %}
+	<div class="main_content_container">
+		<div class="profile_container">
+			<div class="user_profile_head_banner">
+				<div class="user_image_container">
+					<img class="profile_img" src="{{ person.profile_image.url }}">
+				</div>
+				<div class="user_content_profile_container">
+					<ul>
+						<li>Name:{{person.name}} {{person.lastname}} </li>
+						<li> Age: {{person.age}}</li>
+						<li>City: {{person.city}}</li>
+					</ul>
+					<div class="user_description_container">
+						{{person.description}}
+					</div>
+					<label style="color:red" class="mt-2"> Last Login: {{user.last_login}} </label>
+				</div>
+				<h5> Create a Post </h5>
+			</div>
+			<form class="createpost_form" method="post" enctype="multipart/form-data">
+    			{% csrf_token %}
+    			{{createPost}}
+    			<input type='submit' value="Post">
+    		</form>
+
+
+
+
+    		<div class="bottom_main_container">
+
+    			<div class="history_post_container">
+    				{% for post in posts %}
+    				<div class="post_container">
+    						<div class="left_side">
+    							<div class="post_image_container">
+    								<img src="{{ post.image.url }}">
+    							</div>
+    						</div>
+    						<div class="right_side">
+    							<h4>{{post.title}}</h4>
+    							<p>{{post.body}}</p>
+    							<span>Created at: {{ post.date_created }} by {{ post.user.username}}</span>
+    							<div class="button_container">
+    								 <p class="totalLikes_container">Total Likes {{ post.like }}</p> 
+    								 <a href="{% url 'talkbot:create_like' post_id=post.id %}" class="createLike_container">Like </a>
+    							</div>
+    						</div>
+
+
+    				</div>
+    				{%endfor%}
+
+    			</div>
+
+    		</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		</div>
+	</div>
+{% endfor %}
+	<div class="sidebar_container">
+		<a href="{% url 'talkbot:update_profile_info' %}"> <li>Update Information</li></a>
+	</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
 
 <div>
 	<div class="row">
@@ -100,6 +233,6 @@
 	</div>
 
 
-</div>
+</div> -->
 
 {% endblock %} 
