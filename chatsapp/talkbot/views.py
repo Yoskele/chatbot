@@ -13,17 +13,16 @@ import random
 
 # Works
 def signup_view(request):
-    form = UserCreationForm()
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            print('Created a new User')
-            login(request, user)
-            return redirect('talkbot:profile')
-    context = {
-        'form':form
-    }
+    # form = UserCreationForm()
+    # if request.method == 'POST':
+    #     form = UserCreationForm(request.POST)
+    #     if form.is_valid():
+    #         user = form.save()
+    #         login(request, user)
+    #         return redirect('talkbot:profile')
+    # context = {
+    #     'form':form
+    # }
     return render(request, 'signup.html', context)
 
 
@@ -41,21 +40,38 @@ def contact_us(request):
 
 # Works 
 def login_view(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
+    users = User.objects.all()
+    if request.method == 'POST' and 'loginForm' in request.POST:
+        print('loginForm')
+        loginForm = AuthenticationForm(data=request.POST)
+        if loginForm.is_valid():
             # log in the user
             print('form is valid')
-            user = form.get_user()
+            user = loginForm.get_user()
             login(request, user)
             # Redirect User after Login in.
             if 'next' in request.POST:
                 return redirect(request.POST.get)
             else:
                 return redirect('talkbot:profile')
-    else:
-        form = AuthenticationForm()
-    return render(request, 'login.html', {'form':form})
+    elif request.method=='POST' and 'createAccForm' in request.POST:
+        print('createAccForm')
+        createAccForm = UserCreationForm(request.POST)
+        if createAccForm.is_valid():
+            user = createAccForm.save()
+            login(request, user)
+            print('done')
+            return redirect('talkbot:profile')
+        else:
+            messages.warning(request, 'Failed to create account please try again!')
+    loginForm = AuthenticationForm()
+    createAccForm = UserCreationForm()
+    context = {
+        'users':users,
+        'loginForm':loginForm,
+        'createAccForm':createAccForm,
+    } 
+    return render(request, 'login.html',context)
 
 @login_required(login_url="/")
 def profile(request):
@@ -65,9 +81,7 @@ def profile(request):
     profile = Profile_update.objects.filter(user=request.user)
     # Get user post
     posts = ArticlePost.objects.filter(user=request.user).order_by('-date_created')
-
     form_search_friend = forms.SearchFriendForm()
-
     context = {
         'form_search_friend': form_search_friend,
         'users': users,
@@ -80,9 +94,7 @@ def profile(request):
 
 def friend_view(request, friend_id):
     profile_friend = Profile_update.objects.filter(user=friend_id)
-
     posts = ArticlePost.objects.all().filter(user=friend_id).order_by('-date_created')
-    print(posts)
     context = {
         'profile_friend': profile_friend,
         'posts': posts
@@ -98,7 +110,6 @@ def update_profile_info(request):
             profile_user = form.save(commit=False)
             profile_user.user = request.user
             profile_user.save()
-            print('after Save')
             return redirect('talkbot:profile')
     context = {
         'form': form
@@ -122,7 +133,6 @@ def delete_message(request, chatroom_id):
 
 def allpostroom(request):
     allposts = ArticlePost.objects.all().order_by('-date_created')
-    print(allposts)
     context = {
         'allposts': allposts
     }
@@ -134,8 +144,6 @@ def allpostroom(request):
 def member(request, friend_id):
     # Check if User and his Friend are Members to a Chatroom.
     memberroom = Chatroom.objects.filter(member__user=request.user).filter(member__user=friend_id)
-    print('Before If Statment')
-    print(friend_id)
     if len(memberroom) == 0:
         create_room = Chatroom(created_by=request.user, name_of_chatroom='MushroomHunt')
         create_room.save()

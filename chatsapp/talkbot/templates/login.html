@@ -2,31 +2,58 @@
 {% extends 'base.html' %}
 {% block title %} Login  {% endblock %}
 {% block content %}
+{% load static %}
+    
 
 
-    <div class="row justify-content-center mt-5">
 
-        <div class="col-4">
-
-            <h3>Login</h3>
-
-            <hr>
-
-            <form method="post">
-
-                {%csrf_token%}
-
-                {{form.as_p}}
-
-                <br>
-                
-                <button type= 'submit' value="Login" class = "btn btn-danger">Login</button>
-                <p> No Account No Worries Create one Here! </p>
-                <a href="{% url 'talkbot:signup' %}"> Create </a>
-            </form>
-
+    <div class="main_container">
+        <div class="left_side">
+            <div class="left_side_wrapper">
+                <h1 class="mt-4"> Welcome To ChatBot </h1>
+                <div class="login_container">
+                    <form class="login_form" method="post">
+                        {%csrf_token%}
+                        {{loginForm.as_p}}
+                        <button type= 'submit' value="Login" name="loginForm" class="login_button">Login</button>  
+                    </form>
+                </div>
+                <hr>
+                <h4> No Account ? </h4>
+                <p> Feel free to create one </p>
+                <div class="createAccForm_container">
+                    <form class="createAccForm" method="post">
+                        {{ createAccForm }}
+                        {% csrf_token %}
+                        <input type="submit" name="createAccForm" value="Submit" id="createAccForm_button">
+                    </form>
+                </div>
+            </div>
         </div>
+        <div class="right_side">
+            <h4 style="text-align:center;" class="mt-3"> Users on the platform </h4>
+            <div class="user_container mt-5">
+                {% for user in users %}
+                    <a href="{% url 'talkbot:friend_view' friend_id=user.id %}">
+                        <div class="user_wrapper">
 
+                            <div class="image_container">
+
+                            </div>
+
+                            <div class="user_content">
+                               <h5>{{ user.username }}</h5>
+                            </div>
+
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+            <div class="github_container">
+                <img src="{% static 'github.png' %}">
+                <a href="https://github.com/Yoskele/" target="_blank"> Go to Yoskele's portfolio</a>
+            </div>
+        </div>
     </div>
 
 
