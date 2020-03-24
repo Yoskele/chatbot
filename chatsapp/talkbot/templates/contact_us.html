@@ -1,26 +1,75 @@
 {% extends 'base.html' %}
-{% block title %} Contact Us {% endblock %}
+{% block title %} Conctact page {% endblock %}
+{% block extra_head %}
+{% load static %}
+<meta name="description" content="Contact me" >
+<link rel="stylesheet" href="{% static 'stylefolder/contact_page.css' %}">
+{% endblock %}
 {% block content %}
-	<link rel="stylesheet" type="text/css" href="stylish.css">
-	<div class="row">
-		<div id="left_row" class="col-md-2">
+<div class="wrapper">
+	<div class="container">
+		<h1> Yossi Kayhko </h1>
+		<img src="https://vignette.wikia.nocookie.net/hanna-barbera/images/2/24/Johnny_Bravo.jpg/revision/latest?cb=20120423033926" alt="Johnny_Bravo" width="150" class="image_bravo">
+		<hr>
+		<p>
+			I'm passionate about technologies and programming. 🚀
+			I'm a hard worker and I have a strong resilience at work.
+			<br>
+			<b>Programing Languages:</b>
+			<br>
+			-Javascript
+			- React
+			- DOM
+			- Python
+			- Web (Front & Back)
+			- JSON / Database / SQL
+			- Django/Flask
+			- Git
+			<br>
+			<b>Marketing skills:</b>
+			<br>
+			- Google Search Console
+			- Google Analytics 
+			- SEO
+			- PPC
+			<br>
+			<b>Languages</b>
+			🇸🇪 - Swedish (native)
+			🇬🇧 - English (fluent)
+			🇮🇱 - Hebrew (very good level)
+		</p>
+		<div class="label_container_bottom">
+			<p> Phone: 050-2100719 </p>
+			<p> Email: yossi.kayhko@gmail.com</p>
+			<p> Facebook: Yossi Käyhkö </p>
+		</div>
+	</div>
 
-			<ul>
-				<h5>Contact Us!</h5>
-				<li class="list-group-item list-group-item-success">Phone: 058 739 5345</li>
-				<li class="list-group-item list-group-item-success">Address: 35 Ahad Ha'am, Tel Aviv, Israel</li>
-				<li class="list-group-item list-group-item-success">Email: alyosav@aya.com</li>
-				<li class="list-group-item list-group-item-success">Phone: 058 739 5345</li>
-				<li class="list-group-item list-group-item-success">Fax: 058 739 5345</li>
-			</ul>
-		</div>
-		<div class="col-md-3 mr-5">
-			<div class="contact_box">
-				<h1>Yossi Kahyko</h1>
-				<img src="https://vignette.wikia.nocookie.net/hanna-barbera/images/2/24/Johnny_Bravo.jpg/revision/latest?cb=20120423033926" alt="Trulli" width="150">
-				<h6 class="mt-5">Born in Stockholm, Sweden, Yossi is a world class leading web developer. He has three olympic gold medals. One in snowboarding, one is figure skating, and another in swimming. At the age of 27 he began Developers Institute Bootcamp in Tel Aviv, Israel where he now resides.  Along with his exceptional athetic ability, he also enjoys painting still lifes, improving his chess skills, and is currently writing a book titled "Don't Hate me because I am handsome. Hate me because I am better than you".</h6>
-			</div>
-		</div>
-</body>
-</html>
+	<div class="start_spinner_button">
+		Click here!
+	</div>
+</div>
+<script>
+	let image = document.querySelector('.image_bravo');
+	setInterval(function(){ image.style.transform = 'scale(1.10)'; }, 600);
+	setInterval(function(){ image.style.transform = 'scale(1.00)'; }, 800);
+	let button = document.querySelector('.start_spinner_button').addEventListener('click',  spin );
+	function spin(){
+		let x = 5;
+		let container = document.querySelector('.container');
+		let button = document.querySelector('.start_spinner_button');
+		console.log(button)
+		button.style.display = 'none';
+		container.style.transform = "rotate("+x+"deg)";
+		let timer = setInterval( () =>{
+			if(x !== 360){
+				x++;
+				container.style.transform = "rotate("+x+"deg)";
+			} else if (x === 360){
+				clearInterval(timer);
+				button.style.display = 'block';
+			}
+		},5);
+	}
+</script>
 {% endblock %}

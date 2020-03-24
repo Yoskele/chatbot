@@ -42,11 +42,9 @@ def contact_us(request):
 def login_view(request):
     profiles = Profile_update.objects.all()
     if request.method == 'POST' and 'loginForm' in request.POST:
-        print('loginForm')
         loginForm = AuthenticationForm(data=request.POST)
         if loginForm.is_valid():
             # log in the user
-            print('form is valid')
             user = loginForm.get_user()
             login(request, user)
             # Redirect User after Login in.
@@ -55,12 +53,10 @@ def login_view(request):
             else:
                 return redirect('talkbot:profile')
     elif request.method=='POST' and 'createAccForm' in request.POST:
-        print('createAccForm')
         createAccForm = UserCreationForm(request.POST)
         if createAccForm.is_valid():
             user = createAccForm.save()
             login(request, user)
-            print('done')
             return redirect('talkbot:update_profile_info')
         else:
             messages.warning(request, 'Failed to create account please try again!')
@@ -79,6 +75,8 @@ def profile(request):
     users = User.objects.all().exclude(username='admin').exclude(username=request.user)
     # Get the user profile 
     profile = Profile_update.objects.filter(user=request.user)
+    # Get all user profile
+    friends = Profile_update.objects.all().exclude(user=request.user)
     # Get user post
     posts = ArticlePost.objects.filter(user=request.user).order_by('-date_created')
     form_search_friend = forms.SearchFriendForm()
@@ -97,17 +95,20 @@ def profile(request):
         'profile': profile,
         'posts': posts,
         'createPost':createPost,
-
+        'friends':friends,
     }
     return render(request, 'user_profile.html', context)
 
 
 def friend_view(request, friend_id):
-    profile_friend = Profile_update.objects.filter(user=friend_id)
+    profile_friend = Profile_update.objects.filter(user_id=friend_id)
     posts = ArticlePost.objects.all().filter(user=friend_id).order_by('-date_created')
+
+    friends = Profile_update.objects.all().exclude(user=request.user).exclude(user_id=friend_id)
     context = {
         'profile_friend': profile_friend,
-        'posts': posts
+        'posts': posts,
+        'friends':friends,
     }
     return render(request, 'friend_view.html', context)
 
@@ -144,10 +145,9 @@ def delete_message(request, chatroom_id):
 def allpostroom(request):
     allposts = ArticlePost.objects.all().order_by('-date_created')
     context = {
-        'allposts': allposts
+        'allposts': allposts,
     }
     return render(request, 'all_post_room.html', context)
-
 
 
 
@@ -164,6 +164,7 @@ def member(request, friend_id):
         member = Member(chatroom=new_room, user=request.user)
         # Storing Friends ID in Member.
         member_friend = Member(chatroom=new_room, user_id=friend_id)
+        print('this is memeber', member_friend)
         member.save()
         member_friend.save()
         #Flas Message That says it creatade a room.
@@ -179,6 +180,7 @@ def member(request, friend_id):
             if chatroom != None:
                 break
         return redirect('talkbot:chatroom', chatroom_id=chatroom.id)
+
 
 @login_required(login_url="/")
 def chatroom(request, chatroom_id):
@@ -214,7 +216,6 @@ def create_like(request, post_id):
     like = ArticlePost.objects.get(pk=post_id)
     like.like += 1
     like.save()
-    print(like)
     return redirect('talkbot:profile')
 
 @login_required(login_url="/")
@@ -258,7 +259,6 @@ def game_room(request):
 
 
 def game_room_outcome(request, number):
-    print(number)
     context = {
         'number': number
     }

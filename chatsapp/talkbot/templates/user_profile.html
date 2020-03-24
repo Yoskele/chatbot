@@ -6,233 +6,105 @@
 <link rel="stylesheet" href="{% static 'stylefolder/user_profile.css' %}">
 {% endblock %}
 {% block content %}
-
-
-
+{% if messages %}
+    <div class="messages">
+        {% for msg in messages %}
+            <div class="alert alert-success" role="alert">
+                {{msg.message}}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
 <div class="body_container_flex">
 	<div class="block_push">
-		push
 	</div>
-{% for person in profile %}
-	<div class="main_content_container">
-		<div class="profile_container">
-			<div class="user_profile_head_banner">
-				<div class="user_image_container">
-					<img class="profile_img" src="{{ person.profile_image.url }}">
-				</div>
-				<div class="user_content_profile_container">
-					<ul>
-						<li>Name:{{person.name}} {{person.lastname}} </li>
-						<li> Age: {{person.age}}</li>
-						<li>City: {{person.city}}</li>
-					</ul>
-					<div class="user_description_container">
-						{{person.description}}
-					</div>
-					<label style="color:red" class="mt-2"> Last Login: {{user.last_login}} </label>
-				</div>
-				<h5> Create a Post </h5>
-			</div>
-			<form class="createpost_form" method="post" enctype="multipart/form-data">
-    			{% csrf_token %}
-    			{{createPost}}
-    			<input type='submit' value="Post">
-    		</form>
-
-
-
-
-    		<div class="bottom_main_container">
-
-    			<div class="history_post_container">
-    				{% for post in posts %}
-    				<div class="post_container">
-    						<div class="left_side">
-    							<div class="post_image_container">
-    								<img src="{{ post.image.url }}">
-    							</div>
-    						</div>
-    						<div class="right_side">
-    							<h4>{{post.title}}</h4>
-    							<p>{{post.body}}</p>
-    							<span>Created at: {{ post.date_created }} by {{ post.user.username}}</span>
-    							<div class="button_container">
-    								 <p class="totalLikes_container">Total Likes {{ post.like }}</p> 
-    								 <a href="{% url 'talkbot:create_like' post_id=post.id %}" class="createLike_container">Like </a>
-    							</div>
-    						</div>
-
-
-    				</div>
-    				{%endfor%}
-
-    			</div>
-
-    		</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		</div>
-	</div>
-{% endfor %}
-	<div class="sidebar_container">
-		<a href="{% url 'talkbot:update_profile_info' %}"> <li>Update Information</li></a>
-	</div>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- 
-
-<div>
-	<div class="row">
-	   	<div id="left_row" class="col-sm-2 mt-2">
-			<ul class="profile">
-				<li>Talk to other Users</li>
-				{% for user in users %}
-				<div class=2>
-					<a href="{% url 'talkbot:member' friend_id=user.id %}"> <li class="list-group-item list-group-item-info mt-1" style="text-align:center;">{{user.username}}</li></a>
-				</div>
-				{% endfor %}
-
-				<div class="UserSearch mt-5">
-					<h4> Search for a Frind </h4>
-				    <form class="search_friend" method="post" action="{% url 'talkbot:find_friend' %}">
-    					{% csrf_token %}
-
-    					{{ form_search_friend }}
-    					<input type='submit' value="Search">
-					</form>
-				</div>
-			</ul>
-	    </div>
-
-	    <div class="col-sm">
-	    	<div  id="middle_part">
-		    	<div class="row">
-
-			    	<div class="col-sm-3">
-
-				      	{% for person in profile %}
+	{% for person in profile %}
+		<div class="main_content_container">
+			<div class="profile_container">
+				<div class="user_profile_head_banner">
+					<div class="user_image_container">
 						<img class="profile_img" src="{{ person.profile_image.url }}">
 					</div>
-
-					<div class="col-sm-8">
-						<h4> Welcome To {{person.name}} {{person.lastname}}s profile </h4>
-						<div class="description_profile">
-							<p> Age: {{person.age}}</p>
-							<p> Country: {{person.country}}</p>
-							<p> City: {{person.city}} </p>
-							<p class="navbar bg-primary" style="color:white"> About me: {{person.description}} </p>
+					<div class="user_content_profile_container">
+						<ul>
+							<li>Name:{{person.name}} {{person.lastname}} </li>
+							<li> Age: {{person.age}}</li>
+							<li>City: {{person.city}}</li>
+						</ul>
+						<div class="user_description_container">
+							{{person.description}}
 						</div>
-						{% endfor %}
 						<label style="color:red" class="mt-2"> Last Login: {{user.last_login}} </label>
 					</div>
+					<h5> Create a Post </h5>
 				</div>
-			</div>
-
-			<a href="{% url 'talkbot:createpost' %}" class="btn btn-primary mt-1"> Create a Post</a> 
-
-			<hr>
-
-			<div class="all_post">
-				{% for post in posts %}
-				<div class="user_post">
-						<div class="card-header">
-						   Created at: {{ post.date_created }} by {{ post.user.username}} <span class="badge badge-success">Total Likes {{ post.like }}</span> 
-						</div>
-
-						<div class="row">
-
-							<div class="col-sm-6">
-								<h5 class="card-title"> {{ post.title }} </h5>
-								<p class="card-text"> {{ post.body }} </p>
-								<a href="{% url 'talkbot:create_like' post_id=post.id %}" class="btn btn-primary mr-5 mt-3">Like </a>
-							</div>
-
-							<div class="col-sm-6">
-								<div class="postImagePosition">
-									<img class="postimage" src="{{ post.image.url }}">
+				<br>
+				<form class="createpost_form" method="post" enctype="multipart/form-data">
+	    			{% csrf_token %}
+	    			{{createPost}}
+	    			<input type='submit' value="Post" class="post_button">
+	    		</form>
+	    		<div class="bottom_main_container">
+	    			<div class="history_post_container">
+	    				{% for post in posts %}
+	    				<div class="post_container">
+							<div class="left_side">
+								<div class="post_image_container">
+									<img src="{{ post.image.url }}">
 								</div>
 							</div>
-							<hr>
-						</div>
-				</div>
-				{% endfor %}
-
+							<div class="right_side">
+								<h4>{{post.title}}</h4>
+								<p>{{post.body}}</p>
+								<span>Created at: {{ post.date_created }} by {{ post.user.username}}</span>
+								<div class="button_container">
+									 <p class="totalLikes_container">Total Likes {{ post.like }}</p> 
+									 <a href="{% url 'talkbot:create_like' post_id=post.id %}" class="createLike_container">Like </a>
+								</div>
+							</div>
+	    				</div>
+	    				<hr>
+	    				{%endfor%}
+	    			</div>
+	    		</div>
 			</div>
-	    </div>
+		</div>
+	{% endfor %}
+	<div class="sidebar_container">
+		<div class="update_container">
+			<a href="{% url 'talkbot:update_profile_info' %}"> Update Information</a>
+		</div>
+		<div class="friend_container">
+			<h4> People Around the World</h4>
+			<hr>
+			{% for friend in friends %}
+				<div class="mini_friend_container">
+					<div class="friend_image_container">
+						<img src="{{friend.profile_image.url}}">
+					</div>
+					<div class="friend_content_container">
+						<ul>
+							<p>{{friend.name}}</p>
+							<p>{{friend.age}}</p>
+							<p>{{friend.city}}</p>
+						</ul>
+					</div>
+					<div class="text_friend_container">
+						<a href="{% url 'talkbot:friend_view' friend_id=friend.user.id %}"> 
+							<div class="button_to_friend">
+								View 
+							</div>
+						</a>
 
-	    <div id="right_row" class="col-sm-2 mt-2">
-      		<ul class="profile">
-				<li>Change Picture</li>
-				<a href="{% url 'talkbot:update_profile_info' %}"> <li>Update Information</li></a>
-				<a href="{% url 'talkbot:game_room' %}"><li>Play Games With Friends</li></a>
-				<li>History</li>
-			</ul>
-
-			<h5 class="mt-5"> See Your Friends Profile </h5>
-			{% for user in users %}
-				<div class="list-group">
-						<a href="{% url 'talkbot:friend_view' friend_id=user.id %}" class="list-group-item list-group-item-action list-group-item-primary mt-1">{{ user.username }}</a>
+						<a href="{% url 'talkbot:member' friend_id=friend.user.id %}"> 
+							<div class="button_to_friend">
+								Chat
+							</div>
+						</a>
+					</div>
 				</div>
 			{% endfor %}
 		</div>
 	</div>
-
-
-</div> -->
-
+</div>
 {% endblock %} 

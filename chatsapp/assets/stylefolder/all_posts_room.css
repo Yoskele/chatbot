@@ -1,0 +1,83 @@
+.main_container{
+	border:1px solid lightgrey;
+	width:70%;
+	margin:10px auto 10px auto;
+	padding:10px;
+		background:#ECF0F1;
+}
+.post_container{
+	position:relative;
+	border:1px solid lightgrey;
+	border-radius:10px;
+	width:60%;
+	margin:10px auto 10px auto;
+	display:flex;
+	flex-wrap:wrap;
+	background:#FAFAFA;
+	border-radius:5px;
+}
+.view_friend_container{
+	background:#41ACDE;
+	position:absolute;
+	top:0;
+	right:0px;
+	padding:5px;
+	border-top-left-radius:10px;
+	border-bottom-left-radius:10px;
+}
+.view_friend_container a{
+	color:white;
+}
+.view_friend_container a:hover{
+	text-decoration:none;
+	color:white;
+}
+.image_post_container{
+	border-right:1px solid lightgrey;
+	width:300px;
+	height:250px;
+	display:flex;
+	flex-direction:column;
+	justify-content:center;
+	align-items:center;
+}
+.image_post_container img{
+	width:80%;
+	border-radius:3px;
+}
+.content_container{
+	border-right:1px solid lightgrey;
+	flex:1;
+	display:flex;
+	flex-direction:column;
+	justify-content:center;
+	align-items:center;
+}
+.label_container{
+	border:1px solid lightgrey;
+	border-bottom-left-radius:5px;
+	border-bottom-right-radius:5px;
+	width:100%;
+	padding:5px;
+	display:flex;
+	justify-content:space-around;
+}
+.like_container{
+	background:#73CD49;
+	padding:5px;
+	border-radius:50%;
+	color:white;
+}
+.like_button:hover{
+	text-decoration:none;
+	color:white;
+	transform:scale(1.02);
+}
+.like_button{
+	width:100px;
+	padding:3px;
+	background:#41ACDE;
+	text-align:center;
+	color:white;
+	border-radius:20px;
+}

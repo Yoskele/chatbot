@@ -1,34 +1,32 @@
 {% extends 'base.html' %}
-
-{% block title %} All Post Room {% endblock %}
+{% block title %}  All Post Room  {% endblock %}
+{% block extra_head %}
+{% load static %}
+<meta name="description" content="See your own profile easly at django chat" >
+<link rel="stylesheet" href="{% static 'stylefolder/all_posts_room.css' %}">
+{% endblock %}
 {% block content %}
 
-<h3 class="navbar bg-success" style="width:450px; color:white;">  Give the best Post you have!</h3><a href="{% url 'talkbot:createpost' %}" class="btn btn-primary"> Create a Post</a> 
-	<div class="container">
-		
-				{% for post in allposts %}
-
-				<div class="user_post ">
-					<div class="card-header mt-4">
-					   Created at: {{ post.date_created }} by {{ post.user.username}} <span class="badge badge-success">Total Likes {{ post.like }}</span> 
-					</div>
-
-					<div class="row" id="all_post">
-
-						<div class="col-sm-6">
-							<h5 class="card-title"> {{ post.title }} </h5>
-							<p class="card-text"> {{ post.body }} </p>
-							<a href="{% url 'talkbot:create_like' post_id=post.id %}" class="btn btn-primary mr-5 mt-3">Like </a>
-						</div>
-
-						<div class="col-sm-6 mt-4">
-							<div class="postImagePosition">
-								<img class="postimage" src="{{ post.image.url }}">
-							</div>
-						</div>
-						<hr>
-					</div>
-					{% endfor %}
-				</div>
+<div class="main_container">
+	{% for post in allposts %}
+		<div class="post_container">
+			<div class="view_friend_container">
+				<a href="{% url 'talkbot:friend_view' friend_id=post.user.id %}"> View page </a>
+			</div>
+			<div class="image_post_container">
+				<img src="{{post.image.url}}" alt="post image">
+			</div>
+			<div class="content_container">
+				<h5 class="card-title"> {{ post.title }} </h5>
+				<p class="card-text"> {{ post.body }} </p>
+			</div>
+			<div class="label_container">
+				<span> Created at: {{ post.date_created }} <b class="mr-2">by</b>{{ post.user.username}}</span>
+				<span class="like_container">{{ post.like }} </span>
+				<a href="{% url 'talkbot:create_like' post_id=post.id%}" class="like_button">Like </a>
+			</div>
+		</div>
+	{% endfor %}
+</div>
 {% endblock %} 
 

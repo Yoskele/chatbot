@@ -1,75 +1,99 @@
 {% extends 'base.html' %}
 {% block title %} Friend Page {% endblock %}
+{% block extra_head %}
+{% load static %}
+<meta name="description" content="See your Friend profile at django chat" >
+<link rel="stylesheet" href="{% static 'stylefolder/friend_view.css' %}">
+{% endblock %}
 {% block content %}
-
-
 <h3 class="navbar bg-success" style="width:450px; color:white;"> You are viewing your friend page </h3>
-	<div>
-	<div class="row">
-	   	<div id="left_row" class="col-sm-2">
-	
-	    </div>
-
-	    <div class="col-sm">
-	    	<div  id="middle_part">
-		    	<div class="row">
-
-			    	<div class="col-sm-3">
-
-				      	{% for person in profile_friend %}
-						<img class="profile_img" src="{{ person.profile_image.url }}">
-					</div>
-
-					<div class="col-sm-8">
-						<h4> Welcome To {{person.name}} {{person.lastname}}s profile </h4>
-						<div class="description_profile">
-							<p> Age: {{person.age}}</p>
-							<p> Country: {{person.country}}</p>
-							<p>  City: {{person.city}}</p>
-							<p class="navbar bg-primary" style="color:white"> About me: {{person.description}}</p>
-						</div>
-						{% endfor %}
-						<label style="color:red" class="mt-2"> Last Login: {{user.last_login}} </label>
-					</div>
-				</div>
-			</div>
-
-
-			<hr>
-
-			<div class="all_post">
-				{% for post in posts %}
-				<div class="user_post">
-						<div class="card-header">
-						   Created at: {{ post.date_created }} by {{ post.user.username}} <span class="badge badge-success">Total Likes {{ post.like }}</span> 
-						</div>
-
-						<div class="row">
-
-							<div class="col-sm-6">
-								<h5 class="card-title"> {{ post.title }} </h5>
-								<p class="card-text"> {{ post.body }} </p>
-								<a href="{% url 'talkbot:create_like' post_id=post.id %}" class="btn btn-primary mt-3">Like </a>
-							</div>
-
-							<div class="col-sm-6">
-								<div class="postImagePosition">
-									<img class="postimage" src="{{ post.image.url }}">
-								</div>
-							</div>
-							<hr>
-						</div>
-				</div>
-				{% endfor %}
-
-			</div>
-	    </div>
-
-	    <div id="right_row" class="col-sm-2">
-
-	    </div>
+<div class="body_container_flex">
+	<div class="block_push">
 	</div>
-
-	<a href="{% url 'talkbot:profile' %}"> Go Back To Your Profile </a>
+{% for person in profile_friend %}
+	<div class="main_content_container">
+		<div class="profile_container">
+			<div class="user_profile_head_banner">
+				<div class="user_image_container">
+					<img class="profile_img" src="{{ person.profile_image.url }}">
+				</div>
+				<div class="user_content_profile_container">
+					<ul>
+						<li>Name:{{person.name}} {{person.lastname}} </li>
+						<li> Age: {{person.age}}</li>
+						<li>City: {{person.city}}</li>
+					</ul>
+					<div class="user_description_container">
+						{{person.description}}
+					</div>
+					<label style="color:red" class="mt-2"> Last Login: {{person.user.last_login}} </label>
+				</div>
+			</div>
+			<div class="start_chat_container">
+				<a href="{% url 'talkbot:member' friend_id=person.user.id %}"> Send a message </a>
+			</div>
+    		<div class="bottom_main_container">
+    			<div class="history_post_container">
+    				{% for post in posts %}
+    				<div class="post_container">
+						<div class="left_side">
+							<div class="post_image_container">
+								<img src="{{ post.image.url }}">
+							</div>
+						</div>
+						<div class="right_side">
+							<h4>{{post.title}}</h4>
+							<p>{{post.body}}</p>
+							<span>Created at: {{ post.date_created }} by {{ post.user.username}}</span>
+							<div class="button_container">
+								 <p class="totalLikes_container">Total Likes {{ post.like }}</p> 
+								 <a href="{% url 'talkbot:create_like' post_id=post.id %}" class="createLike_container">Like </a>
+							</div>
+						</div>
+    				</div>
+    				<hr>
+    				{%endfor%}
+    			</div>
+    		</div>
+		</div>
+	</div>
+{% endfor %}
+	<div class="sidebar_container">
+		<div class="update_container">
+			<a href="{% url 'talkbot:update_profile_info' %}"> Update Information</a>
+		</div>
+		<div class="friend_container">
+			<h4> People Around the World</h4>
+			<hr>
+			{% for friend in friends %}
+				<div class="mini_friend_container">
+					<div class="friend_image_container">
+						<img src="{{friend.profile_image.url}}">
+					</div>
+					<div class="friend_content_container">
+						<ul>
+							<p>{{friend.name}}</p>
+							<p>{{friend.age}}</p>
+							<p>{{friend.city}}</p>
+						</ul>
+					</div>
+					<div class="text_friend_container">
+						<a href="{% url 'talkbot:friend_view' friend_id=friend.user.id %}"> 
+							<div class="button_to_friend">
+								View 
+							</div>
+						</a>
+						<a href="{% url 'talkbot:member' friend_id=friend.user.id %}"> 
+							<div class="button_to_friend">
+								Chat
+							</div>
+						</a>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
 </div>
+<a href="{% url 'talkbot:profile' %}"> Go Back To Your Profile </a>
+
 {% endblock %}

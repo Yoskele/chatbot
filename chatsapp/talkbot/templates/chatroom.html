@@ -1,44 +1,49 @@
 {% extends 'base.html' %}
-{% block title %} Member Page {% endblock %}
+{% block title %} Chatroom {% endblock %}
+{% block extra_head %}
+{% load static %}
+<meta name="description" content="Chat with your Friend at django chat" >
+<link rel="stylesheet" href="{% static 'stylefolder/chatroom.css' %}">
+{% endblock %}
 {% block content %}
-<h3> {{ chatroom.name_of_chatroom }} </h3>
 
-	<div class="container">
-
-
-	    {% if messages %}
-        <ul class="messages">
-            {% for msg in messages %}
-            <li> 
-                <div class="alert alert-success" role="alert">
-                    {{msg.message}}
-                </div>
-            </li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-
-        <nav class="navbar bg-primary">
-		  <h4 class="mr-5" style="color:white"> {{ chatroom.created_by }}</h4> 
-          <a href="{% url 'talkbot:delete_message' chatroom_id=chatroom.id %}" class="btn btn-danger"> Delete all your messages in the group </a>
-        </nav>
-
-        <div class="messagebox overflow-auto mt-1">
-            <ul class="list-group">
-                {% for text in texts %}
-    	        <li class="list-group-item list-group-item-secondary">{{text.user}}: {{text.text}} </li>
-                {% endfor %}
-            </ul>
-        </div>
-    	<!-- write message -->
-        <div class="">
-    		<form class="message-text-input" method="post" action="{% url 'talkbot:create' chatroom_id=chatroom.id %}">
-    			{% csrf_token %}
-
-    			{{form}}
-    			<input type='submit' value="create">
-    		</form>
-    	</div>
-
+ {% if messages %}
+    <div class="messages">
+        {% for msg in messages %}
+            <div class="alert alert-success" role="alert">
+                {{msg.message}}
+            </div>
+        {% endfor %}
     </div>
+{% endif %}
+<div class="chat_container">
+    <div class="chat_screen">
+       {% for text in texts %}
+            <div class="text_container">   
+                 <b>{{text.user}}:</b> <p >{{text.text}}</p> 
+            </div>
+        {% endfor %}
+    </div>
+    <div class="chat_desk">
+        <form class="message-text-input" method="post" action="{% url 'talkbot:create' chatroom_id=chatroom.id %}">
+            {% csrf_token %}
+            {{form}}
+            <input type='submit' value="create">
+        </form>
+    </div>
+    <div class="button_container">
+        <a href="{% url 'talkbot:delete_message' chatroom_id=chatroom.id %}" class="delete_message"> Delete all your messages </a>
+        <a href="{% url 'talkbot:profile' %}" class="back_to_profile_button"> Back to profile </a>
+    </div>
+</div>
+<script>
+let user = "{{request.user}}"
+let text_container = document.querySelectorAll('.text_container');
+console.log(text_container);
+text_container.forEach((container) =>{
+    if(container.firstElementChild.innerHTML.includes(user)){
+        container.firstElementChild.style.color = 'green';
+    };
+});
+</script>
 {% endblock %} 

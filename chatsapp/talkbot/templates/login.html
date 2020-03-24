@@ -1,64 +1,64 @@
-
 {% extends 'base.html' %}
 {% block title %} Login  {% endblock %}
 {% block content %}
 {% load static %}
-    
-
-
-
-    <div class="main_container">
-        <div class="left_side">
-            <div class="left_side_wrapper">
-                <h1 class="mt-4"> Welcome To ChatBot </h1>
-                <div class="login_container">
-                    <form class="login_form" method="post">
-                        {%csrf_token%}
-                        {{loginForm.as_p}}
-                        <button type= 'submit' value="Login" name="loginForm" class="login_button">Login</button>  
-                    </form>
-                </div>
-                <hr>
-                <h3> No Account ? </h3>
-                <p> Feel free to create one </p>
-                <div class="createAccForm_container">
-                    <form class="createAccForm" method="post">
-                        {{ createAccForm }}
-                        {% csrf_token %}
-                        <input type="submit" name="createAccForm" value="Submit" id="createAccForm_button">
-                    </form>
-                </div>
+<div class="main_container">
+    <div class="left_side">
+        <div class="left_side_wrapper">
+            <h1 class="mt-4"> Welcome To ChatBot </h1>
+            <div class="login_container">
+                <form class="login_form" method="post">
+                    {%csrf_token%}
+                    {{loginForm.as_p}}
+                    <button type= 'submit' value="Login" name="loginForm" class="login_button">Login</button>  
+                </form>
             </div>
-        </div>
-        <div class="right_side">
-            <h4 style="text-align:center;" class="mt-3"> Users on the platform </h4>
-            <div class="user_container mt-5">
-                {% for profile in profiles %}
-                    <a href="{% url 'talkbot:friend_view' friend_id=profile.id %}">
-                        <div class="user_wrapper">
-
-                            <div class="image_container">
-                                <img src={{profile.profile_image.url}}>
-                            </div>
-
-                            <div class="user_content">
-                               <p>{{ profile.name }}</p>
-                               <p>{{ profile.age }}</p>
-                               <p>{{ profile.city }}</p>
-                            </div>
-                        </div>
-                    </a>
-                {% endfor %}
-            </div>
-            <div class="github_container">
-                <a href="https://github.com/Yoskele/" target="_blank">
-                    <img src="{% static 'github.png' %}">
-                    <b> Yoskele's portfolio</b>
-                </a>
+            <hr>
+            <h3> No Account ? </h3>
+            <p> Feel free to create one </p>
+            <div class="createAccForm_container">
+                <form class="createAccForm" method="post">
+                    {{ createAccForm }}
+                    {% csrf_token %}
+                    <input type="submit" name="createAccForm" value="Submit" id="createAccForm_button">
+                </form>
             </div>
         </div>
     </div>
+    <div class="right_side">
+        <h4 style="text-align:center;" class="mt-3"> Users on the platform </h4>
+        <div class="user_container mt-5">
+            {% for profile in profiles %}
+                <a href="{% url 'talkbot:friend_view' friend_id=profile.user.id %}">
+                    <div class="user_wrapper">
+                        <div class="image_container">
+                            <img src={{profile.profile_image.url}}>
+                        </div>
+                        <div class="user_content">
+                           <p>{{ profile.name }}</p>
+                           <p>{{ profile.age }}</p>
+                           <p>{{ profile.city }}</p>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+        <div class="github_container">
+            <a href="https://github.com/Yoskele/" target="_blank">
+                <img src="{% static 'github.png' %}">
+                <b> Yoskele's portfolio</b>
+            </a>
+        </div>
+    </div>
+</div>
+<script>
+let timer = setInterval( () =>{
+    let container = document.querySelector('.user_container');
+    let clone = container.firstElementChild.cloneNode(true);
+    container.appendChild(clone);
+    container.firstElementChild.remove();
+},3500)
+// console.log('this is last', container.lastElementChild)
 
-
-
+</script>
 {% endblock %}

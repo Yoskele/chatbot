@@ -121,6 +121,9 @@ body{
 }
 .user_container{
 	height:550px;
+	border:1px solid lightgrey;
+	width:98%;
+	margin:5px auto 5px auto;
 }
 .user_container a{
 	text-decoration:none;

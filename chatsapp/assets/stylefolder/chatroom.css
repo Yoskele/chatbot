@@ -1,0 +1,113 @@
+.chat_container{
+	width:70%;
+	height:760px;
+	margin:20px auto 20px auto;
+	border:1px solid lightgrey;
+	border-radius:20px;
+	background:#ECF0F1;
+	padding:20px;
+}
+.chat_container a:hover{
+	transform:scale(1.02);
+}
+.chat_screen{
+	width:80%;
+	height:500px;
+	margin:10px auto 10px auto;
+	overflow:auto;
+	padding:10px;
+	border:1px solid pink;
+	border-radius:10px;
+}
+.text_container {
+	background:#d6d8db;
+	padding:10px;
+	border-radius:20px;
+	margin:10px auto 10px auto;
+	display:flex;	
+}
+.text_container b{
+	margin-right:5px;
+}
+.chat_desk{
+	border:1px solid pink;
+	width:50%;
+	margin:10px auto 10px auto;
+	padding:10px;
+	border-radius:20px;
+}
+
+.message-text-input{
+	display:flex;
+	flex-direction:column;
+}
+.button_container{
+	width:80%;
+	height:50px;
+	margin:10px auto 10px auto;
+	display:flex;
+	justify-content:space-around;
+}
+.button_container a:hover{
+	text-decoration:none;
+	color:white;
+}
+.delete_message:hover{
+	transform:scale(1.02);
+}
+.delete_message{
+	width:200px;
+	padding:10px;
+	background:#C93E34;
+	border-radius:20px;
+	color:white;
+	text-align:center;
+}
+.back_to_profile_button{
+	width:200px;
+	padding:10px;
+	background:#007bff;
+	border-radius:20px;
+	color:white;
+	text-align:center;
+}
+form label {
+	display:none;
+}
+form :nth-child(3){
+	height:100px;
+	border-top-right-radius:10px;
+	border-top-left-radius:10px;
+}
+
+@media (max-width:1650px){
+	.chat_container{
+		width:95%;
+	}
+	.chat_container a:hover{
+		transform:scale(1.02);
+	}
+	.chat_screen{
+		width:90%;
+	}
+	.text_container {
+		display:flex;
+		flex-direction:column;	
+	}
+	.chat_desk{
+		width:90%;
+	}
+	.button_container{
+		width:95%;
+	}
+	.delete_message{
+		width:150px;
+		padding:10px;
+		background:#C93E34;
+		border-radius:20px;
+		color:white;
+		text-align:center;
+	}
+	.back_to_profile_button{
+		width:150px;
+}
